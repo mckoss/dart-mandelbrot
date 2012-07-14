@@ -6,7 +6,7 @@
  * A solar system visualization.
  */
 
-#library("solar");
+#library("mandelbrodt");
 
 #import("dart:html");
 

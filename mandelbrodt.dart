@@ -69,7 +69,7 @@ class UI {
     display.height = (availHeight * 0.75).toInt();
     
     requestRedraw();
-    Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
+    Mandelbrodt.render(display, [-1.1, 0.45, -1.0, 0.2]);
   }
   
   bool draw(int time) {

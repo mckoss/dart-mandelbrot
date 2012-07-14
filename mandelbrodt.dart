@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /**
- * A mandelbrot visualization.
+ * A mandelbrodt visualization.
  */
 
 #library("mandelbrodt");
@@ -14,9 +14,11 @@
  * The entry point to the application.
  */
 void main() {
-  var mandelbrot = new Mandelbrot(query("#display"), query("#graph"));
+  print('hi');
+  Mandelbrodt.init();
+  var mandelbrodt = new UI(query("#display"), query("#graph"));
 
-  mandelbrot.init();
+  mandelbrodt.init();
 }
 
 double fpsAverage;
@@ -44,7 +46,7 @@ void showFps(num fps) {
  * background and the planets, and requests that it be redraw at appropriate
  * intervals using the [Window.requestAnimationFrame] method.
  */
-class Mandelbrot {
+class UI {
   CanvasElement graph;
   CanvasElement display;
   
@@ -55,7 +57,7 @@ class Mandelbrot {
   
   num drawCount;
 
-  Mandelbrot(this.display, this.graph) {
+  UI(this.display, this.graph) {
     drawCount = 0;
   }
 
@@ -107,7 +109,7 @@ class Mandelbrot {
 
 
     drawGraph();
-    //render(display, -2, 2, 2, -2);
+    Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
 
     requestRedraw();
   }

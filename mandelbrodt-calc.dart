@@ -3,21 +3,6 @@
 
 List<List> levelColors;
 
-init() {
-  levelColors = [  
-  [0, [255, 255, 255, 0]],
-  [1, [0, 8, 107, 255]],        // dark blue background
-  [2, [0, 16, 214, 255]],
-  [100, [255, 255, 0, 255]],    // yellow
-  [200, [255, 0, 0, 255]],      // red
-  [400, [0, 255, 0, 255]],      // green
-  [600, [0, 255, 255, 255]],    // cyan
-  [800, [254, 254, 254, 255]],  // white
-  [900, [128, 128, 128, 255]],  // gray
-  [1000, [0, 0, 0, 255]]        // black
-  ];
-}
-
 class Mandelbrodt {
   static final List<double> rcTop = const [-2.0, -2.0, 2.0, 2.0];
   // level, R, G, B, A - interpolated
@@ -28,6 +13,21 @@ class Mandelbrodt {
   double xMax = 2.0;
   double yMin = -2.0;
   double yMax = 2.0;
+  
+  static void init() {
+    levelColors = [  
+    [0, [255, 255, 255, 0]],
+    [1, [0, 8, 107, 255]],        // dark blue background
+    [2, [0, 16, 214, 255]],
+    [100, [255, 255, 0, 255]],    // yellow
+    [200, [255, 0, 0, 255]],      // red
+    [400, [0, 255, 0, 255]],      // green
+    [600, [0, 255, 255, 255]],    // cyan
+    [800, [254, 254, 254, 255]],  // white
+    [900, [128, 128, 128, 255]],  // gray
+    [1000, [0, 0, 0, 255]]        // black
+    ];
+  }
   
   static int iterations(double x0, double y0) {
     if (y0 < 0) {
@@ -125,7 +125,7 @@ class Mandelbrodt {
     }
   }
   
-  void render(CanvasElement canvas, List<double> rc) {
+  static void render(CanvasElement canvas, List<double> rc) {
     var cx = canvas.width;
     var cy = canvas.height;
     CanvasRenderingContext2D ctx = canvas.context2d;

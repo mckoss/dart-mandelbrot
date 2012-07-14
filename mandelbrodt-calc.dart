@@ -3,10 +3,14 @@
 void main() {
   init();
   var m = new Mandelbrodt();
-  var i = m.iterations(0.3, 0.0);
+  var i = Mandelbrodt.iterations(0.3, 0.0);
   print(i);
   var c = Mandelbrodt.colorFromLevel(i);
   print(c);
+  var data = new List<int>(16 * 4);
+  var rc = [.5, .5, .75, .75];
+  Mandelbrodt.renderData(data, rc, 4, 4);
+  print(data);
 }
 
 List<List> levelColors;
@@ -37,7 +41,7 @@ class Mandelbrodt {
   double yMin = -2.0;
   double yMax = 2.0;
   
-  int iterations(double x0, double y0) {
+  static int iterations(double x0, double y0) {
     if (y0 < 0) {
         y0 = -y0;
     }
@@ -109,6 +113,28 @@ class Mandelbrodt {
     }
 
     return color;
+  }
+  
+  static void renderData(List<int> data, List<double> rc, int cx, int cy) {
+    // Per-pixel step values
+    double dx = (rc[2] - rc[0]) / cx;
+    double dy = (rc[3] - rc[1]) / cy;
+
+    double y = rc[1] + dy / 2;
+    int ib = 0;
+    List<int> rgba = new List<int>(4);
+    for (int iy = 0; iy < cy; iy++) {
+        double x = rc[0] + dx / 2;
+        for (int ix = 0; ix < cx; ix++) {
+            int iters = iterations(x, y);
+            rgba = colorFromLevel(iters);
+            for (int i = 0; i < 4; i++) {
+                data[ib++] = rgba[i];
+            }
+            x += dx;
+        }
+        y += dy;
+    }
   }
 }
 

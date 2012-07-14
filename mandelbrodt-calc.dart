@@ -1,11 +1,18 @@
 #library("mandelbrodt-calc");
 
 void main() {
+  init();
   var m = new Mandelbrodt();
-  print(m.iterations(0.3, 0.0));
+  var i = m.iterations(0.3, 0.0);
+  print(i);
+  var c = Mandelbrodt.colorFromLevel(i);
+  print(c);
 }
 
-List<List> levelColors = [  
+List<List> levelColors;
+
+init() {
+  levelColors = [  
   [0, [255, 255, 255, 0]],
   [1, [0, 8, 107, 255]],        // dark blue background
   [2, [0, 16, 214, 255]],
@@ -16,7 +23,8 @@ List<List> levelColors = [
   [800, [254, 254, 254, 255]],  // white
   [900, [128, 128, 128, 255]],  // gray
   [1000, [0, 0, 0, 255]]        // black
-];
+  ];
+}
 
 class Mandelbrodt {
   static final List<double> rcTop = const [-2.0, -2.0, 2.0, 2.0];
@@ -66,40 +74,47 @@ class Mandelbrodt {
         x = xT;
     }
     return maxIterations;
+  }
+  
+  static List colorFromLevel(int level) {
+    // Interpolate control points in this.levelColors
+    // to map levels to colors.
+    int iMin = 0;
+    int iMax = levelColors.length;
+    while (iMin < iMax - 1) {
+        int iMid = (iMin + iMax) ~/ 2;
+        int levelT = levelColors[iMid][0];
+        if (levelT == level) {
+            return levelColors[iMid][1];
+        }
+        if (levelT < level) {
+            iMin = iMid;
+        }
+        else {
+            iMax = iMid;
+        }
     }
+    
+    int levelMin = levelColors[iMin][0];
+    int levelMax = levelColors[iMax][0];
+    // Make sure we are not overly sensitive to rounding
+    double p = (level - levelMin) / (levelMax - levelMin);
+
+    List<int> color = new List<int>(4);
+    for (var i = 0; i < 4; i++) {
+        int cMin = levelColors[iMin][1][i];
+        int cMax = levelColors[iMax][1][i];
+        var value = (cMin + p * (cMax - cMin)).toInt();
+        color[i] = value;
+    }
+
+    return color;
+  }
 }
 
 /*
 
 namespace.lookup('com.pageforest.mandelbrot').defineOnce(function (ns) {
-    // http://en.wikipedia.org/wiki/Mandelbrot_set
-
-    function Mandelbrot() {
-        this.maxIterations = 1000;
-        this.rcTop = [-2, -2, 2, 2];
-        this.xMin = -2;
-        this.xMax = 2;
-        this.yMin = -2;
-        this.yMax = 2;
-        this.onRender = function(info, status) {
-            console.log("Rendering " + info + ": " + status);
-        };
-
-        // level, R, G, B, A - interpolated
-        this.levelColors = [
-            [0, [255, 255, 255, 0]],
-            [1, [0, 8, 107, 255]],        // dark blue background
-            [2, [0, 16, 214, 255]],
-            [100, [255, 255, 0, 255]],    // yellow
-            [200, [255, 0, 0, 255]],      // red
-            [400, [0, 255, 0, 255]],      // green
-            [600, [0, 255, 255, 255]],    // cyan
-            [800, [254, 254, 254, 255]],  // white
-            [900, [128, 128, 128, 255]],  // gray
-            [1000, [0, 0, 0, 255]]        // black
-        ];
-    }
-
     Mandelbrot.methods({
         initWorkers: function() {
             if (typeof Worker != "undefined") {
@@ -113,45 +128,6 @@ namespace.lookup('com.pageforest.mandelbrot').defineOnce(function (ns) {
             else {
                 console.log("Web Workers are not supported.");
             }
-        },
-
-        iterations: function (x0, y0) {
-            if (y0 < 0) {
-                y0 = -y0;
-            }
-            var x = x0;
-            var y = y0;
-            var xT;
-
-            var x2 = x * x;
-            var y2 = y * y;
-
-            // Filter out points in the main cardiod
-            if (-0.75 < x && x < 0.38 && y < 0.66) {
-                var q = (x - 0.25) * (x - 0.25) + y2;
-                if (q * (q + x - 0.25) < 0.25 * y2) {
-                    return this.maxIterations;
-                }
-            }
-
-            // Filter out points in bulb of radius 1/4 around (-1,0)
-            if (-1.25 < x && x < -0.75 && y < 0.25) {
-                var d = (x + 1) * (x + 1) + y2;
-                if (d < 1 / 16) {
-                    return this.maxIterations;
-                }
-            }
-
-            for (var i = 0; i < this.maxIterations; i++) {
-                if (x * x + y * y > 4) {
-                    return i;
-                }
-
-                xT = x * x - y * y + x0;
-                y = 2 * x * y + y0;
-                x = xT;
-            }
-            return this.maxIterations;
         },
 
         colorFromLevel: function(level) {

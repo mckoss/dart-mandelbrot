@@ -16,9 +16,9 @@
 void main() {
   print('hi');
   Mandelbrodt.init();
-  var mandelbrodt = new UI(query("#display"), query("#graph"));
+  var ui = new UI(query("#display"), query("#graph"));
 
-  mandelbrodt.init();
+  ui.init();
 }
 
 double fpsAverage;
@@ -109,7 +109,7 @@ class UI {
 
 
     drawGraph();
-    Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
+    //Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
 
     requestRedraw();
   }

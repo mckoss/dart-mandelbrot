@@ -5,17 +5,29 @@ void main() {
   print(m.iterations(0.3, 0.0));
 }
 
+List<List> levelColors = [  
+  [0, [255, 255, 255, 0]],
+  [1, [0, 8, 107, 255]],        // dark blue background
+  [2, [0, 16, 214, 255]],
+  [100, [255, 255, 0, 255]],    // yellow
+  [200, [255, 0, 0, 255]],      // red
+  [400, [0, 255, 0, 255]],      // green
+  [600, [0, 255, 255, 255]],    // cyan
+  [800, [254, 254, 254, 255]],  // white
+  [900, [128, 128, 128, 255]],  // gray
+  [1000, [0, 0, 0, 255]]        // black
+];
+
 class Mandelbrodt {
-  int maxIterations = 1000;
-  List<double> rcTop;
+  static final List<double> rcTop = const [-2.0, -2.0, 2.0, 2.0];
+  // level, R, G, B, A - interpolated
+
+  static int maxIterations = 1000;
+  
   double xMin = -2.0;
   double xMax = 2.0;
   double yMin = -2.0;
   double yMax = 2.0;
-  
-  Mandelbrodt() {
-    this.rcTop = [-2.0, -2.0, 2.0, 2.0];
-  }
   
   int iterations(double x0, double y0) {
     if (y0 < 0) {
@@ -32,7 +44,7 @@ class Mandelbrodt {
     if (-0.75 < x && x < 0.38 && y < 0.66) {
         double q = (x - 0.25) * (x - 0.25) + y2;
         if (q * (q + x - 0.25) < 0.25 * y2) {
-            return this.maxIterations;
+            return maxIterations;
         }
     }
 
@@ -40,11 +52,11 @@ class Mandelbrodt {
     if (-1.25 < x && x < -0.75 && y < 0.25) {
         double d = (x + 1) * (x + 1) + y2;
         if (d < 1 / 16) {
-            return this.maxIterations;
+            return maxIterations;
         }
     }
 
-    for (int i = 0; i < this.maxIterations; i++) {
+    for (int i = 0; i < maxIterations; i++) {
         if (x * x + y * y > 4) {
             return i;
         }
@@ -53,7 +65,7 @@ class Mandelbrodt {
         y = 2 * x * y + y0;
         x = xT;
     }
-    return this.maxIterations;
+    return maxIterations;
     }
 }
 

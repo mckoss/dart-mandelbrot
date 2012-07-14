@@ -48,21 +48,17 @@ void showFps(num fps) {
 class UI {
   CanvasElement graph;
   CanvasElement display;
-  
-  num _width;
-  num _height;
 
+  List<double> graphData;
+  
   num renderTime;
   
   num drawCount;
 
   UI(this.display, this.graph) {
+    graphData = new List<double>();
     drawCount = 0;
   }
-
-  num get width() => _width;
-
-  num get height() => _height;
 
   init() {
     int availWidth = window.innerWidth - BODY_PADDING * 2 - CANVAS_BORDER * 2;
@@ -95,7 +91,31 @@ class UI {
   }
   
   void drawGraph() {
+    if (drawCount > 123) {
+      drawCount = 1;
+    }
+    graphData.add(1 / drawCount);
+    graph.width = graph.width;
+    var ctx = graph.context2d;
     
+    var offset = 0;
+    var l;
+    if (graphData.length > graph.width) {
+      offset = graphData.length - graph.width;
+      ctx.moveTo(0, (graph.height * graphData[graphData.length - graph.width]).toInt());
+      l = graph.width;
+    } else {
+      l = graphData.length;
+      ctx.moveTo(0, (graph.height * graphData[0]).toInt());
+    }
+
+    for (var i = 0; i < l; i++) {
+      if (i > graph.width) {
+        break;
+      }
+      ctx.lineTo(i, (graph.height * graphData[i + offset]).toInt());
+    }
+    ctx.stroke();
   }
 
   void requestRedraw() {

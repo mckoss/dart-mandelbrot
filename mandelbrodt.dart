@@ -14,10 +14,9 @@
  * The entry point to the application.
  */
 void main() {
-  print('hi');
   Mandelbrodt.init();
+  
   var mandelbrodt = new UI(query("#display"), query("#graph"));
-
   mandelbrodt.init();
 }
 
@@ -74,7 +73,8 @@ class UI {
     display.height = (availHeight * 0.75).toInt();
     
     requestRedraw();
-    //compute.render(display, -2, 2, 2, -2);
+    Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
+    
     /*
     // Measure the canvas element.
     graph.parent.rect.then((ElementRect rect) {
@@ -109,7 +109,6 @@ class UI {
 
 
     drawGraph();
-    Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
 
     requestRedraw();
   }

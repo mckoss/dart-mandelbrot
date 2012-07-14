@@ -6,7 +6,7 @@
  * A mandelbrot visualization.
  */
 
-#library("mandelbrodt");
+#library("mandelbrodt-ui");
 
 #import("dart:html");
 

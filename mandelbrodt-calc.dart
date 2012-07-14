@@ -112,7 +112,6 @@ class Mandelbrodt {
     int ib = 0;
     List<int> rgba = new List<int>(4);
     for (int iy = 0; iy < cy; iy++) {
-        print(iy);
         double x = rc[0] + dx / 2;
         for (int ix = 0; ix < cx; ix++) {
             int iters = iterations(x, y);
@@ -122,7 +121,6 @@ class Mandelbrodt {
             }
             x += dx;
         }
-        print(rgba);
         y += dy;
     }
   }

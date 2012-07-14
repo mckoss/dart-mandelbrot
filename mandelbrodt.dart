@@ -6,8 +6,8 @@
  * A mandelbrot visualization.
  */
 
-#library("mandelbrodt-ui");
-
+#library("mandelbrodt");
+#import("mandelbrodt-calc.dart");
 #import("dart:html");
 
 /**

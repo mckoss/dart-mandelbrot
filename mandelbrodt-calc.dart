@@ -1,17 +1,5 @@
 #library("mandelbrodt-calc");
-
-void main() {
-  init();
-  var m = new Mandelbrodt();
-  var i = Mandelbrodt.iterations(0.3, 0.0);
-  print(i);
-  var c = Mandelbrodt.colorFromLevel(i);
-  print(c);
-  var data = new List<int>(16 * 4);
-  var rc = [.5, .5, .75, .75];
-  Mandelbrodt.renderData(data, rc, 4, 4);
-  print(data);
-}
+#import("dart:html");
 
 List<List> levelColors;
 
@@ -136,6 +124,16 @@ class Mandelbrodt {
         y += dy;
     }
   }
+  
+  void render(CanvasElement canvas, List<double> rc) {
+    var cx = canvas.width;
+    var cy = canvas.height;
+    CanvasRenderingContext2D ctx = canvas.context2d;
+    ImageData bitmap = ctx.createImageData(cx, cy);
+
+    renderData(bitmap.data, rc, cx, cy);
+  }
+  
 }
 
 /*

@@ -14,7 +14,6 @@
  * The entry point to the application.
  */
 void main() {
-  print('hi');
   Mandelbrodt.init();
   var ui = new UI(query("#display"), query("#graph"));
 
@@ -74,24 +73,7 @@ class UI {
     display.height = (availHeight * 0.75).toInt();
     
     requestRedraw();
-    //compute.render(display, -2, 2, 2, -2);
-    /*
-    // Measure the canvas element.
-    graph.parent.rect.then((ElementRect rect) {
-      _width = rect.client.width;
-      _height = rect.client.height;
-
-      canvas.width = _width;
-      // just make a 100x100 black square in the top left hand corner just as a test
-      var ctx = canvas.context2d;
-      ctx.fillRect(0, 0, 100, 100);
-      
-      _init();
-    });*/
-  }
-
-  void _init() {
-    
+    //Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
   }
   
   bool draw(int time) {
@@ -109,8 +91,6 @@ class UI {
 
 
     drawGraph();
-    //Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
-
     requestRedraw();
   }
   

@@ -9,6 +9,7 @@
 #library("mandelbrodt");
 #import("mandelbrodt-calc.dart");
 #import("dart:html");
+#import('dart:isolate');
 
 int TILE_SIZE = 64;
 
@@ -18,6 +19,30 @@ int TILE_SIZE = 64;
 void main() {
   Mandelbrodt.init();
   var ui = new UI(query("#display"), query("#graph"));
+  port.receive((WorkResponse response, SendPort replyTo) {
+    ui.pushResponse(response);
+  });
+}
+
+class WorkResponse {
+  List<int> data;
+  int x, y;
+  
+  WorkResponse(this.data, this.x, this.y);
+  
+  void renderToCanvas(CanvasElement canvas) {
+    var ctx = canvas.context2d;
+    ImageData bitmap = ctx.createImageData(cx, cy);
+    for (int i = 0; i < data.length; i++) {
+    ctx.putImageData(bitmap, 0, 0);
+  }
+}
+
+class WorkRequest {
+  List<double> rc;
+  int cx, cy;
+  
+  WorkRequest(this.rc, this.cx, this.cy);
 }
 
 double fpsAverage;
@@ -61,7 +86,7 @@ class UI {
   int dataOffset;
   int timeLast = 0;
 
-  UI(this.display, this.graph) {
+  UI(this.display, this.graph, int numWorkers) {
 
     drawCount = 0;
 
@@ -73,6 +98,8 @@ class UI {
     display.width = availWidth;
     graph.height = (availHeight * 0.25).toInt();
     display.height = cy = (availHeight * 0.75).toInt();
+    
+    Queue<WorkResponse> readyList = new Queue<WorkResponse>();
 
     graphData = new List<double>(cx);
     for (int i = 0; i < cx; i++) {
@@ -116,6 +143,13 @@ class UI {
 
   bool draw(int time) {
     print("Time: $time");
+    if (!readyList.isEmpty()) {
+      work = readList.removeFirst();
+      work.renderToCanvas(canvasTile);
+
+      canvasTile.
+    }
+    
     if (tile < tiles) {
       int start = Clock.now();
       drawTile();

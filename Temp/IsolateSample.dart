@@ -3,35 +3,31 @@
 
 void main() {
   
-  port.receive((ReturnMessage message, SendPort replyTo) {
+  port.receive((ResponseData message, SendPort replyTo) {
     print("Got message1: ${message.name}");
     //port.close();  
   });
 
-  SendMessage sending = new SendMessage.create("brandon");
+  WorkRequest work = new WorkRequest.create("brandon");
   
   SendPort sender = spawnFunction(process);
-  sender.send(sending, port.toSendPort());
+  sender.send(work, port.toSendPort());
   
 }
 
 process() {
-  port.receive((SendMessage message, SendPort replyTo) {
-      ReturnMessage returnMessage = new ReturnMessage.create("close2 ${message.name}");
+  port.receive((WorkRequest message, SendPort replyTo) {
+      ResponseData returnMessage = new ResponseData.create("close2 ${message.name}");
       replyTo.send(returnMessage);
       //port.close();  
   });
 }
 
 
-class SendMessage {
-  String name;
+class WorkRequest {
+  List<double> rc;
+  int cx;
+  int cy;
   
-  SendMessage.create(this.name);
-}
-
-class ReturnMessage {
-  String name;
-  
-  ReturnMessage.create(this.name);
+  WorkRequest(this.rc, this.cx, this.cy);
 }

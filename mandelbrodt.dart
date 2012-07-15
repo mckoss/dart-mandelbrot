@@ -60,6 +60,8 @@ class UI {
   List<double> graphData;
   int dataOffset;
   int timeLast = 0;
+  double rcWidth;
+  double rcHeight;
 
   UI(this.display, this.graph) {
 
@@ -73,6 +75,8 @@ class UI {
     display.width = availWidth;
     graph.height = (availHeight * 0.25).toInt();
     display.height = cy = (availHeight * 0.75).toInt();
+    
+    display.on.click.add(this.handleOnClick);
 
     graphData = new List<double>(cx);
     for (int i = 0; i < cx; i++) {
@@ -86,8 +90,8 @@ class UI {
     rcDisplay = [-1.1, 0.45, -1.0, 0.2];
 
     var pCanvas = display.height / display.width;
-    var rcHeight = (rcDisplay[1] - rcDisplay[3]).abs();
-    var rcWidth = (rcDisplay[0] - rcDisplay[2]).abs();
+    rcHeight = (rcDisplay[1] - rcDisplay[3]).abs();
+    rcWidth = (rcDisplay[0] - rcDisplay[2]).abs();
     print('height $rcHeight, width $rcWidth');
     var pRect = rcHeight / rcWidth;
     List<double> rcCenter = [(rcDisplay[0] + rcDisplay[2]) / 2,
@@ -112,6 +116,13 @@ class UI {
   List<double> getPosition(int x, int y) {
     return [rcDisplay[0] + (rcDisplay[2] - rcDisplay[0]) * x / cx,
             rcDisplay[1] + (rcDisplay[3] - rcDisplay[1]) * y / cy];
+  }
+  
+  handleOnClick(e) {
+    var tl = getPosition((e.x - cx/4).toInt(), (e.y - cy/4).toInt());
+    var br = getPosition((e.x + cx/4).toInt(), (e.y + cy/4).toInt());
+    rcDisplay = [tl[0], tl[1], br[0], br[1]];
+    tile = 0;
   }
 
   bool draw(int time) {

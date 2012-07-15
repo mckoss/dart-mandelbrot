@@ -10,14 +10,14 @@
 #import("mandelbrodt-calc.dart");
 #import("dart:html");
 
+int TILE_SIZE = 64;
+
 /**
  * The entry point to the application.
  */
 void main() {
   Mandelbrodt.init();
   var ui = new UI(query("#display"), query("#graph"));
-
-  ui.init();
 }
 
 double fpsAverage;
@@ -48,72 +48,83 @@ void showFps(num fps) {
 class UI {
   CanvasElement graph;
   CanvasElement display;
+  CanvasElement canvasTile;
 
   List<double> graphData;
-  
-  num renderTime;
-  
+
   num drawCount;
+  List<double> rcDisplay;
+  int columns;
+  int tile;
+  int tiles;
+  int cx;
+  int cy;
 
   UI(this.display, this.graph) {
     graphData = new List<double>();
     drawCount = 0;
-  }
 
-  init() {
+    canvasTile = new CanvasElement(TILE_SIZE, TILE_SIZE);
+
     int availWidth = window.innerWidth - BODY_PADDING * 2 - CANVAS_BORDER * 2;
     int availHeight = window.innerHeight - BODY_PADDING * 2 - CANVAS_BORDER * 4;
-    graph.width = availWidth;
+    graph.width = cx = availWidth;
     display.width = availWidth;
     graph.height = (availHeight * 0.25).toInt();
-    display.height = (availHeight * 0.75).toInt();
-    
-    requestRedraw();
-    
-    //List<double> rc = [-1.25, 0, -1, 0.5];
-    List<double> rc = [-1.25, .125, -1, .375];
+    display.height = cy = (availHeight * 0.75).toInt();
+
+    columns = (display.width ~/ TILE_SIZE + 1);
+    tiles =  columns * (display.height ~/ TILE_SIZE + 1);
+    print("Tiles: $tiles");
+    rcDisplay = [-1.1, 0.45, -1.0, 0.2];
+
     var pCanvas = display.height / display.width;
-    var rcHeight = (rc[1] - rc[3]).abs();
-    var rcWidth = (rc[0] - rc[2]).abs();
+    var rcHeight = (rcDisplay[1] - rcDisplay[3]).abs();
+    var rcWidth = (rcDisplay[0] - rcDisplay[2]).abs();
     print('height $rcHeight, width $rcWidth');
     var pRect = rcHeight / rcWidth;
-    List<double> rcCenter = [(rc[0] + rc[2]) / 2, (rc[1] + rc[2]) / 2];
+    List<double> rcCenter = [(rcDisplay[0] + rcDisplay[2]) / 2,
+                             (rcDisplay[1] + rcDisplay[2]) / 2];
     
-    //print(rc);
-    //print('pRect $pRect, pCanvas $pCanvas');
     if (pRect < pCanvas) {
       var cFactor = display.width / rcWidth;
       double dy = (display.height - rcHeight * cFactor) / cFactor;
-      print(dy);
-      rc[1] -= dy / 2;
-      rc[3] += dy / 2;
+      rcDisplay[1] -= dy / 2;
+      rcDisplay[3] += dy / 2;
     } else {
       var cFactor = display.height / rcHeight;
       double dx = (display.width - rcWidth * cFactor) / cFactor;
-      rc[0] -= dx / 2;
-      rc[2] += dx / 2;
+      rcDisplay[0] -= dx / 2;
+      rcDisplay[2] += dx / 2;
     }
-    Mandelbrodt.render(display, rc);
+
+    tile = 0;
+    window.requestAnimationFrame(draw);
   }
-  
+
+  List<double> getPosition(int x, int y) {
+    return [rcDisplay[0] + (rcDisplay[2] - rcDisplay[0]) * x / cx,
+            rcDisplay[1] + (rcDisplay[3] - rcDisplay[1]) * y / cy];
+  }
+
   bool draw(int time) {
     drawCount++;
-    if (time == null) {
-      // time can be null for some implementations of requestAnimationFrame
-      time = new Date.now().millisecondsSinceEpoch;
-    }
-
-    if (renderTime != null) {
-      //showFps((1000 / (time - renderTime)).round());
-    }
-
-    renderTime = time;
-
 
     drawGraph();
-    requestRedraw();
+    if (tile < tiles) {
+      int x = (tile % columns) * TILE_SIZE;
+      int y = (tile ~/ columns) * TILE_SIZE;
+      var ul = getPosition(x, y);
+      var lr = getPosition(x + TILE_SIZE, y + TILE_SIZE);
+      List<double> rc = [ul[0], ul[1], lr[0], lr[1]];
+      tile++;
+      print("Drawing tile $tile/$tiles @ $rc");
+      Mandelbrodt.render(canvasTile, rc);
+      display.context2d.drawImage(canvasTile, x, y);
+    }
+    window.requestAnimationFrame(draw);
   }
-  
+
   void drawGraph() {
     if (drawCount > 123) {
       drawCount = 1;
@@ -121,7 +132,7 @@ class UI {
     graphData.add(1 / drawCount);
     graph.width = graph.width;
     var ctx = graph.context2d;
-    
+
     var offset = 0;
     var l;
     if (graphData.length > graph.width) {
@@ -142,7 +153,4 @@ class UI {
     ctx.stroke();
   }
 
-  void requestRedraw() {
-    window.requestAnimationFrame(draw);
-  }
 }

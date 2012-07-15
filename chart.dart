@@ -7,8 +7,9 @@ class RateChart {
   List<double> chartData;
   int dataOffset = 0;
   int lastTime;
+  String units;
   
-  RateChart(CanvasElement this.canvas) {
+  RateChart(CanvasElement this.canvas, this.units) {
     chartData = new List<double>(canvas.width);
     for (int i = 0; i < canvas.width; i++) {
       chartData[i] = 0.0;
@@ -38,7 +39,7 @@ class RateChart {
 
     ctx.font = "bold 10px sans-serif";
     ctx.textBaseline = "top";
-    ctx.fillText("${maxData.toInt()}", 0, 0);
+    ctx.fillText("${maxData.toInt()} $units/s", 2, 0);
 
     for (int x = 0; x < canvas.width; x++) {
       int i = (dataOffset + x) % canvas.width;

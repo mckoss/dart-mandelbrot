@@ -19,7 +19,7 @@ class ViewPort {
   
   double getPixSize() {
     var width = rect[2] - rect[0];
-    var height = rect[3] - rect[1];
+    var height = rect[1] - rect[3];
     return Math.max(width / canvas.width, height / canvas.height);
   }
   
@@ -30,10 +30,10 @@ class ViewPort {
     rect[3] = rect[1] - pixSize * canvas.height;
   }
   
-  zoom(List<int> centerPix, zoomLevel) {
+  zoom(List<int> centerPix, double ratio) {
     var centerPoint = getPosition(centerPix[0], centerPix[1]);
     var pixSize = getPixSize();
-    recenter(centerPoint, pixSize * zoomLevel);
+    recenter(centerPoint, pixSize / ratio);
   }
   
   drawOn(CanvasElement display) {

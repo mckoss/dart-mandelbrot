@@ -1,7 +1,6 @@
 #library("mandelbrodt.main");
 
 #import("dart:html");
-#import('dart:isolate');
 
 #import("mandelbrodt.dart");
 #import("view_port.dart");
@@ -32,8 +31,8 @@ class MandelbrodtDemo {
     displayCanvas.width = availWidth;
     displayCanvas.height = availHeight - chartCanvas.height;
     
-    chart = new RateChart(chartCanvas);
-    display = new ViewPort(0, 0, displayCanvas, [-2.0, 1.0, 0.25, -1.0]);
+    chart = new RateChart(chartCanvas, "pixels");
+    display = new ViewPort(0, 0, displayCanvas, [-2.0, 1.1, 0.5, -1.1]);
     display.adjustAspectRatio();
     this.prepTiles();
 
@@ -51,7 +50,7 @@ class MandelbrodtDemo {
   void onClick(e) {
     var x = e.x;
     var y = e.y - 2 - 10 - chart.canvas.height;
-    display.zoom([x, y], 2);
+    display.zoom([x, y], 2.0);
     prepTiles();
   }
 

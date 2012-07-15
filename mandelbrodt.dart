@@ -50,8 +50,6 @@ class UI {
   CanvasElement display;
   CanvasElement canvasTile;
 
-  List<double> graphData;
-
   num drawCount;
   List<double> rcDisplay;
   int columns;
@@ -59,9 +57,12 @@ class UI {
   int tiles;
   int cx;
   int cy;
+  List<double> graphData;
+  int dataOffset;
+  int timeLast = 0;
 
   UI(this.display, this.graph) {
-    graphData = new List<double>();
+
     drawCount = 0;
 
     canvasTile = new CanvasElement(TILE_SIZE, TILE_SIZE);
@@ -72,6 +73,12 @@ class UI {
     display.width = availWidth;
     graph.height = (availHeight * 0.25).toInt();
     display.height = cy = (availHeight * 0.75).toInt();
+
+    graphData = new List<double>(cx);
+    for (int i = 0; i < cx; i++) {
+      graphData[i] = 0.0;
+    }
+    dataOffset = 0;
 
     columns = (display.width ~/ TILE_SIZE + 1);
     tiles =  columns * (display.height ~/ TILE_SIZE + 1);
@@ -108,47 +115,62 @@ class UI {
   }
 
   bool draw(int time) {
-    drawCount++;
-
-    drawGraph();
+    print("Time: $time");
     if (tile < tiles) {
-      int x = (tile % columns) * TILE_SIZE;
-      int y = (tile ~/ columns) * TILE_SIZE;
-      var ul = getPosition(x, y);
-      var lr = getPosition(x + TILE_SIZE, y + TILE_SIZE);
-      List<double> rc = [ul[0], ul[1], lr[0], lr[1]];
+      int start = Clock.now();
+      drawTile();
+      double dsecs = (Clock.now() - start) / Clock.frequency();
+      updateData((TILE_SIZE * TILE_SIZE) / dsecs);
       tile++;
-      print("Drawing tile $tile/$tiles @ $rc");
-      Mandelbrodt.render(canvasTile, rc);
-      display.context2d.drawImage(canvasTile, x, y);
     }
+    drawGraph();
+
     window.requestAnimationFrame(draw);
+    timeLast = time;
+  }
+
+  void drawTile() {
+    int x = (tile % columns) * TILE_SIZE;
+    int y = (tile ~/ columns) * TILE_SIZE;
+    var ul = getPosition(x, y);
+    var lr = getPosition(x + TILE_SIZE, y + TILE_SIZE);
+    List<double> rc = [ul[0], ul[1], lr[0], lr[1]];
+    print("Drawing tile $tile/$tiles @ $rc");
+
+    Mandelbrodt.render(canvasTile, rc);
+    display.context2d.drawImage(canvasTile, x, y);
+  }
+
+  void updateData(double n) {
+    print("Pixels per sec: $n");
+    graphData[dataOffset] = n;
+    dataOffset = (dataOffset + 1) % cx;
   }
 
   void drawGraph() {
-    if (drawCount > 123) {
-      drawCount = 1;
-    }
-    graphData.add(1 / drawCount);
-    graph.width = graph.width;
     var ctx = graph.context2d;
+    graph.width = graph.width;
 
-    var offset = 0;
-    var l;
-    if (graphData.length > graph.width) {
-      offset = graphData.length - graph.width;
-      ctx.moveTo(0, (graph.height * graphData[graphData.length - graph.width]).toInt());
-      l = graph.width;
-    } else {
-      l = graphData.length;
-      ctx.moveTo(0, (graph.height * graphData[0]).toInt());
-    }
-
-    for (var i = 0; i < l; i++) {
-      if (i > graph.width) {
-        break;
+    double maxData = 20.0;
+    for (int i = 0; i < cx; i++) {
+      if (graphData[i] > maxData) {
+        maxData = graphData[i];
       }
-      ctx.lineTo(i, (graph.height * graphData[i + offset]).toInt());
+    }
+    double scale = graph.height / maxData;
+
+    for (int x = 0; x < cx; x++) {
+      int i = (dataOffset + x) % cx;
+      int y = graph.height - (graphData[i] * scale).toInt();
+      if (x == 0) {
+        ctx.moveTo(x, y);
+        print("$x, $y");
+      } else {
+        ctx.lineTo(x, y);
+        if (x < 10) {
+          print(".. $x, $y");
+        }
+      }
     }
     ctx.stroke();
   }

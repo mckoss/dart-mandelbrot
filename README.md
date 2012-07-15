@@ -1,4 +1,6 @@
-dart-mandelbrodt
+dart-mandelbrot
 ================
 
-Mandelbrodt drawier in Dart
+The results of our Google Hack-a-Thon.
+
+  [Hack-a-Thon]: http://mckoss.github.com/dart-mandelbrot/

@@ -144,16 +144,36 @@ class UI {
 
   void drawGraph() {
     var ctx = graph.context2d;
-    graph.width = graph.width;
+    graph.width = graph.width;  // clear canvas
+    
 
-    double maxData = 20.0;
+    double maxData = 0.0;
+    double scale = 2.0;
     for (int i = 0; i < cx; i++) {
       if (graphData[i] > maxData) {
         maxData = graphData[i];
       }
+      while (scale < maxData) {
+        scale *= 2;
+      }
     }
-    double scale = graph.height / maxData;
 
+    ctx.font = "bold 10px sans-serif";
+    ctx.textBaseline = "top";
+    int scaleInt = scale.toInt();
+    String str = "$scaleInt";
+    
+    ctx.fillText(str, 0, 0);
+    ctx.textBaseline = "bottom";
+    var scaleWidth = (str.length - 1) * 6;
+    
+    ctx.fillText("0", scaleWidth, graph.height);
+    ctx.moveTo(scaleWidth + 9, 0);
+    ctx.lineTo(scaleWidth + 9, graph.height);
+    ctx.stroke();
+    
+    scale = graph.height / scale;
+    
     for (int x = 0; x < cx; x++) {
       int i = (dataOffset + x) % cx;
       int y = graph.height - (graphData[i] * scale).toInt();

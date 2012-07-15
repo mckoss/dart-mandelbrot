@@ -1268,26 +1268,43 @@ $$.UI = {"":
   }
  },
  get$draw: function() { return new $.BoundClosure(this, 'draw$1'); },
+ handleOnClick$1: function(e) {
+  var t1 = e.get$x();
+  var t2 = this.cx;
+  var t3 = $.toInt($.sub(t1, $.div(t2, 4)));
+  var t4 = e.get$y();
+  var t5 = this.cy;
+  var tl = this.getPosition$2(t3, $.toInt($.sub(t4, $.div(t5, 4))));
+  var br = this.getPosition$2($.toInt($.add(e.get$x(), $.div(t2, 4))), $.toInt($.add(e.get$y(), $.div(t5, 4))));
+  this.rcDisplay = [$.index(tl, 0), $.index(tl, 1), $.index(br, 0), $.index(br, 1)];
+  this.tile = 0;
+ },
+ get$handleOnClick: function() { return new $.BoundClosure(this, 'handleOnClick$1'); },
  getPosition$2: function(x, y) {
   var t1 = this.rcDisplay;
   var t2 = t1.length;
   if (0 < 0 || 0 >= t2) throw $.ioore(0);
-  var t3 = t1[0];
-  var t4 = t1.length;
+  t1 = t1[0];
+  var t3 = this.rcDisplay;
+  var t4 = t3.length;
   if (2 < 0 || 2 >= t4) throw $.ioore(2);
-  var t5 = t1[2];
-  var t6 = t1.length;
+  t3 = t3[2];
+  var t5 = this.rcDisplay;
+  var t6 = t5.length;
   if (0 < 0 || 0 >= t6) throw $.ioore(0);
-  t3 = $.add(t3, $.div($.mul($.sub(t5, t1[0]), x), this.cx));
-  var t7 = t1.length;
-  if (1 < 0 || 1 >= t7) throw $.ioore(1);
-  var t8 = t1[1];
-  var t9 = t1.length;
-  if (3 < 0 || 3 >= t9) throw $.ioore(3);
-  var t10 = t1[3];
-  var t11 = t1.length;
-  if (1 < 0 || 1 >= t11) throw $.ioore(1);
-  return [t3, $.add(t8, $.div($.mul($.sub(t10, t1[1]), y), this.cy))];
+  t1 = $.add(t1, $.div($.mul($.sub(t3, t5[0]), x), this.cx));
+  var t7 = this.rcDisplay;
+  var t8 = t7.length;
+  if (1 < 0 || 1 >= t8) throw $.ioore(1);
+  t7 = t7[1];
+  var t9 = this.rcDisplay;
+  var t10 = t9.length;
+  if (3 < 0 || 3 >= t10) throw $.ioore(3);
+  t9 = t9[3];
+  var t11 = this.rcDisplay;
+  var t12 = t11.length;
+  if (1 < 0 || 1 >= t12) throw $.ioore(1);
+  return [t1, $.add(t7, $.div($.mul($.sub(t9, t11[1]), y), this.cy))];
  },
  UI$2: function(display, graph) {
   this.drawCount = 0;
@@ -1303,6 +1320,7 @@ $$.UI = {"":
   t1 = $.toInt($.mul(availHeight, 0.75));
   this.cy = t1;
   t2.set$height(t1);
+  $.add$1(t2.get$on().get$click(), this.get$handleOnClick());
   t1 = this.cx;
   var t3 = $.ListFactory_List(t1);
   $.setRuntimeTypeInfo(t3, ({E: 'double'}));
@@ -1320,32 +1338,40 @@ $$.UI = {"":
   t1 = this.rcDisplay;
   t3 = t1.length;
   if (1 < 0 || 1 >= t3) throw $.ioore(1);
-  t4 = t1[1];
-  var t5 = t1.length;
+  t1 = t1[1];
+  t4 = this.rcDisplay;
+  var t5 = t4.length;
   if (3 < 0 || 3 >= t5) throw $.ioore(3);
-  var rcHeight = $.abs($.sub(t4, t1[3]));
-  var t6 = t1.length;
-  if (0 < 0 || 0 >= t6) throw $.ioore(0);
-  var t7 = t1[0];
-  var t8 = t1.length;
-  if (2 < 0 || 2 >= t8) throw $.ioore(2);
-  var rcWidth = $.abs($.sub(t7, t1[2]));
+  var rcHeight = $.abs($.sub(t1, t4[3]));
+  var t6 = this.rcDisplay;
+  var t7 = t6.length;
+  if (0 < 0 || 0 >= t7) throw $.ioore(0);
+  t6 = t6[0];
+  var t8 = this.rcDisplay;
+  var t9 = t8.length;
+  if (2 < 0 || 2 >= t9) throw $.ioore(2);
+  var rcWidth = $.abs($.sub(t6, t8[2]));
   var pRect = $.div(rcHeight, rcWidth);
-  var t9 = t1.length;
-  if (0 < 0 || 0 >= t9) throw $.ioore(0);
-  var t10 = t1[0];
-  var t11 = t1.length;
-  if (2 < 0 || 2 >= t11) throw $.ioore(2);
-  $.div($.add(t10, t1[2]), 2);
-  var t12 = t1.length;
-  if (1 < 0 || 1 >= t12) throw $.ioore(1);
-  var t13 = t1[1];
-  var t14 = t1.length;
-  if (2 < 0 || 2 >= t14) throw $.ioore(2);
-  $.div($.add(t13, t1[2]), 2);
+  var t10 = this.rcDisplay;
+  var t11 = t10.length;
+  if (0 < 0 || 0 >= t11) throw $.ioore(0);
+  t10 = t10[0];
+  var t12 = this.rcDisplay;
+  var t13 = t12.length;
+  if (2 < 0 || 2 >= t13) throw $.ioore(2);
+  $.div($.add(t10, t12[2]), 2);
+  var t14 = this.rcDisplay;
+  var t15 = t14.length;
+  if (1 < 0 || 1 >= t15) throw $.ioore(1);
+  t14 = t14[1];
+  var t16 = this.rcDisplay;
+  var t17 = t16.length;
+  if (2 < 0 || 2 >= t17) throw $.ioore(2);
+  $.div($.add(t14, t16[2]), 2);
   if ($.ltB(pRect, pCanvas)) {
     var cFactor = $.div(t2.get$width(), rcWidth);
     var dy = $.div($.sub(t2.get$height(), $.mul(rcHeight, cFactor)), cFactor);
+    t1 = this.rcDisplay;
     t3 = $.div(dy, 2);
     t4 = t1.length;
     if (1 < 0 || 1 >= t4) throw $.ioore(1);
@@ -1353,16 +1379,18 @@ $$.UI = {"":
     t5 = t1.length;
     if (1 < 0 || 1 >= t5) throw $.ioore(1);
     t1[1] = t3;
-    t3 = $.div(dy, 2);
-    t6 = t1.length;
+    t3 = this.rcDisplay;
+    t1 = $.div(dy, 2);
+    t6 = t3.length;
     if (3 < 0 || 3 >= t6) throw $.ioore(3);
-    t3 = $.add(t1[3], t3);
-    t7 = t1.length;
+    t1 = $.add(t3[3], t1);
+    t7 = t3.length;
     if (3 < 0 || 3 >= t7) throw $.ioore(3);
-    t1[3] = t3;
+    t3[3] = t1;
   } else {
     cFactor = $.div(t2.get$height(), rcHeight);
     var dx = $.div($.sub(t2.get$width(), $.mul(rcWidth, cFactor)), cFactor);
+    t1 = this.rcDisplay;
     t3 = $.div(dx, 2);
     t4 = t1.length;
     if (0 < 0 || 0 >= t4) throw $.ioore(0);
@@ -1370,18 +1398,258 @@ $$.UI = {"":
     t5 = t1.length;
     if (0 < 0 || 0 >= t5) throw $.ioore(0);
     t1[0] = t3;
-    t3 = $.div(dx, 2);
-    t6 = t1.length;
+    t3 = this.rcDisplay;
+    t1 = $.div(dx, 2);
+    t6 = t3.length;
     if (2 < 0 || 2 >= t6) throw $.ioore(2);
-    t3 = $.add(t1[2], t3);
-    t7 = t1.length;
+    t1 = $.add(t3[2], t1);
+    t7 = t3.length;
     if (2 < 0 || 2 >= t7) throw $.ioore(2);
-    t1[2] = t3;
+    t3[2] = t1;
   }
   this.tile = 0;
   $.window().requestAnimationFrame$1(this.get$draw());
   var i;
  }
+};
+
+$$._AbstractWorkerEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._AudioContextEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._BatteryManagerEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._BodyElementEventsImpl = {"":
+ ["_ptr"],
+ super: "_ElementEventsImpl"
+};
+
+$$._DOMApplicationCacheEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._DedicatedWorkerContextEventsImpl = {"":
+ ["_ptr"],
+ super: "_WorkerContextEventsImpl"
+};
+
+$$._DeprecatedPeerConnectionEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._DocumentEventsImpl = {"":
+ ["_ptr"],
+ super: "_ElementEventsImpl",
+ get$reset: function() {
+  return this.operator$index$1('reset');
+ },
+ reset$0: function() { return this.get$reset().$call$0(); },
+ get$click: function() {
+  return this.operator$index$1('click');
+ }
+};
+
+$$._ElementEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl",
+ get$reset: function() {
+  return this.operator$index$1('reset');
+ },
+ reset$0: function() { return this.get$reset().$call$0(); },
+ get$click: function() {
+  return this.operator$index$1('click');
+ }
+};
+
+$$._EventSourceEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._EventsImpl = {"":
+ ["_ptr"],
+ super: "Object",
+ operator$index$1: function(type) {
+  return $._EventListenerListImpl$(this._ptr, type);
+ }
+};
+
+$$._EventListenerListImpl = {"":
+ ["_type", "_ptr"],
+ super: "Object",
+ _add$2: function(listener, useCapture) {
+  this._ptr.$dom_addEventListener$3(this._type, listener, useCapture);
+ },
+ add$2: function(listener, useCapture) {
+  this._add$2(listener, useCapture);
+  return this;
+ },
+ add$1: function(listener) {
+  return this.add$2(listener,false)
+}
+};
+
+$$._FileReaderEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._FileWriterEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._FrameSetElementEventsImpl = {"":
+ ["_ptr"],
+ super: "_ElementEventsImpl"
+};
+
+$$._IDBDatabaseEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._IDBRequestEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._IDBTransactionEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._IDBVersionChangeRequestEventsImpl = {"":
+ ["_ptr"],
+ super: "_IDBRequestEventsImpl"
+};
+
+$$._InputElementEventsImpl = {"":
+ ["_ptr"],
+ super: "_ElementEventsImpl"
+};
+
+$$._JavaScriptAudioNodeEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._MediaElementEventsImpl = {"":
+ ["_ptr"],
+ super: "_ElementEventsImpl"
+};
+
+$$._MediaStreamEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._MessagePortEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._NotificationEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl",
+ get$click: function() {
+  return this.operator$index$1('click');
+ }
+};
+
+$$._PeerConnection00EventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._SVGElementInstanceEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl",
+ get$reset: function() {
+  return this.operator$index$1('reset');
+ },
+ reset$0: function() { return this.get$reset().$call$0(); },
+ get$click: function() {
+  return this.operator$index$1('click');
+ }
+};
+
+$$._SharedWorkerContextEventsImpl = {"":
+ ["_ptr"],
+ super: "_WorkerContextEventsImpl"
+};
+
+$$._SpeechRecognitionEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._TextTrackEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._TextTrackCueEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._TextTrackListEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._WebSocketEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._WindowEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl",
+ get$reset: function() {
+  return this.operator$index$1('reset');
+ },
+ reset$0: function() { return this.get$reset().$call$0(); },
+ get$click: function() {
+  return this.operator$index$1('click');
+ }
+};
+
+$$._WorkerEventsImpl = {"":
+ ["_ptr"],
+ super: "_AbstractWorkerEventsImpl"
+};
+
+$$._WorkerContextEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._XMLHttpRequestEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._XMLHttpRequestUploadEventsImpl = {"":
+ ["_ptr"],
+ super: "_EventsImpl"
+};
+
+$$._IDBOpenDBRequestEventsImpl = {"":
+ ["_ptr"],
+ super: "_IDBRequestEventsImpl"
 };
 
 $$._FixedSizeListIterator = {"":
@@ -2011,6 +2279,9 @@ $$.Closure = {"":
 Isolate.$defineClass('BoundClosure', 'Closure', ['self', 'target'], {
 $call$1: function(p0) { return this.self[this.target](p0); }
 });
+Isolate.$defineClass('BoundClosure0', 'Closure', ['self', 'target'], {
+$call$0: function() { return this.self[this.target](); }
+});
 $.mul$slow = function(a, b) {
   if ($.checkNumbers(a, b) === true) return a * b;
   return a.operator$mul$1(b);
@@ -2036,6 +2307,10 @@ $._IsolateContext$ = function() {
   var t1 = new $._IsolateContext(null, null, null);
   t1._IsolateContext$0();
   return t1;
+};
+
+$._AudioContextEventsImpl$ = function(_ptr) {
+  return new $._AudioContextEventsImpl(_ptr);
 };
 
 $._window = function() {
@@ -2225,6 +2500,10 @@ $.checkNum = function(value) {
   return value;
 };
 
+$._IDBOpenDBRequestEventsImpl$ = function(_ptr) {
+  return new $._IDBOpenDBRequestEventsImpl(_ptr);
+};
+
 $.typeNameInIE = function(obj) {
   var name$ = $.constructorNameFallback(obj);
   if ($.eqB(name$, 'Window')) return 'DOMWindow';
@@ -2255,6 +2534,10 @@ $.constructorNameFallback = function(obj) {
 
 $.regExpMatchStart = function(m) {
   return m.index;
+};
+
+$._WorkerEventsImpl$ = function(_ptr) {
+  return new $._WorkerEventsImpl(_ptr);
 };
 
 $.ltB = function(a, b) {
@@ -2339,6 +2622,10 @@ $.StringBase_concatAll = function(strings) {
   return $.stringJoinUnchecked($.StringBase__toJsStringArray(strings), '');
 };
 
+$._InputElementEventsImpl$ = function(_ptr) {
+  return new $._InputElementEventsImpl(_ptr);
+};
+
 $._DoubleLinkedQueueIterator$ = function(_sentinel) {
   var t1 = new $._DoubleLinkedQueueIterator(null, _sentinel);
   t1._DoubleLinkedQueueIterator$1(_sentinel);
@@ -2349,6 +2636,10 @@ $.S = function(value) {
   var res = $.toString(value);
   if (!(typeof res === 'string')) throw $.captureStackTrace($.IllegalArgumentException$(value));
   return res;
+};
+
+$._TextTrackListEventsImpl$ = function(_ptr) {
+  return new $._TextTrackListEventsImpl(_ptr);
 };
 
 $._dynamicMetadata = function(table) {
@@ -2368,6 +2659,10 @@ $.LinkedHashMapImplementation$ = function() {
   var t1 = new $.LinkedHashMapImplementation(null, null);
   t1.LinkedHashMapImplementation$0();
   return t1;
+};
+
+$._DeprecatedPeerConnectionEventsImpl$ = function(_ptr) {
+  return new $._DeprecatedPeerConnectionEventsImpl(_ptr);
 };
 
 $.Mandelbrodt_colorFromLevel = function(level) {
@@ -2459,6 +2754,10 @@ $.indexSet = function(a, index, value) {
   $.indexSet$slow(a, index, value);
 };
 
+$._DOMApplicationCacheEventsImpl$ = function(_ptr) {
+  return new $._DOMApplicationCacheEventsImpl(_ptr);
+};
+
 $.StringMatch$ = function(_start, str, pattern) {
   return new $.StringMatch(pattern, str, _start);
 };
@@ -2478,6 +2777,10 @@ $.invokeClosure = function(closure, isolate, numberOfArguments, arg1, arg2) {
   throw $.captureStackTrace($.ExceptionImplementation$('Unsupported number of arguments for wrapped closure'));
 };
 
+$._EventListenerListImpl$ = function(_ptr, _type) {
+  return new $._EventListenerListImpl(_type, _ptr);
+};
+
 $.stringJoinUnchecked = function(array, separator) {
   return array.join(separator);
 };
@@ -2490,6 +2793,10 @@ $._fillStatics = function(context) {
     $globals = context.isolateStatics;
   $static_init();
 ;
+};
+
+$._WindowEventsImpl$ = function(_ptr) {
+  return new $._WindowEventsImpl(_ptr);
 };
 
 $.DoubleLinkedQueue$ = function() {
@@ -2535,6 +2842,10 @@ $.contains$1 = function(receiver, other) {
   return $.contains$2(receiver, other, 0);
 };
 
+$._EventSourceEventsImpl$ = function(_ptr) {
+  return new $._EventSourceEventsImpl(_ptr);
+};
+
 $._DoubleLinkedQueueEntrySentinel$ = function() {
   var t1 = new $._DoubleLinkedQueueEntrySentinel(null, null, null);
   t1.DoubleLinkedQueueEntry$1(null);
@@ -2544,6 +2855,10 @@ $._DoubleLinkedQueueEntrySentinel$ = function() {
 
 $.mul = function(a, b) {
   return typeof a === 'number' && typeof b === 'number' ? (a * b) : $.mul$slow(a, b);
+};
+
+$._NotificationEventsImpl$ = function(_ptr) {
+  return new $._NotificationEventsImpl(_ptr);
 };
 
 $.lt$slow = function(a, b) {
@@ -2608,6 +2923,14 @@ $._globalState0 = function(val) {
   $globalState = val;;
 };
 
+$._WorkerContextEventsImpl$ = function(_ptr) {
+  return new $._WorkerContextEventsImpl(_ptr);
+};
+
+$._PeerConnection00EventsImpl$ = function(_ptr) {
+  return new $._PeerConnection00EventsImpl(_ptr);
+};
+
 $.DoubleLinkedQueueEntry$ = function(e) {
   var t1 = new $.DoubleLinkedQueueEntry(null, null, null);
   t1.DoubleLinkedQueueEntry$1(e);
@@ -2622,6 +2945,10 @@ $.contains$2 = function(receiver, other, startIndex) {
 
 $._MainManagerStub$ = function() {
   return new $._MainManagerStub();
+};
+
+$._DocumentEventsImpl$ = function(_ptr) {
+  return new $._DocumentEventsImpl(_ptr);
 };
 
 $.regExpTest = function(regExp, str) {
@@ -2669,6 +2996,10 @@ $.getTraceFromException = function(exception) {
   return $.StackTrace$((exception.stack));
 };
 
+$._TextTrackEventsImpl$ = function(_ptr) {
+  return new $._TextTrackEventsImpl(_ptr);
+};
+
 $.Mandelbrodt_render = function(canvas, rc) {
   var cx = canvas.get$width();
   var cy = canvas.get$height();
@@ -2688,10 +3019,22 @@ $.charCodeAt = function(receiver, index) {
   return receiver.charCodeAt$1(index);
 };
 
+$._BatteryManagerEventsImpl$ = function(_ptr) {
+  return new $._BatteryManagerEventsImpl(_ptr);
+};
+
+$._EventsImpl$ = function(_ptr) {
+  return new $._EventsImpl(_ptr);
+};
+
 $.HashSetImplementation$ = function() {
   var t1 = new $.HashSetImplementation(null);
   t1.HashSetImplementation$0();
   return t1;
+};
+
+$._IDBRequestEventsImpl$ = function(_ptr) {
+  return new $._IDBRequestEventsImpl(_ptr);
 };
 
 $.stringSplitUnchecked = function(receiver, pattern) {
@@ -2712,10 +3055,22 @@ $.toInt = function(receiver) {
   return (truncated == -0.0) ? 0 : truncated;
 };
 
+$._SpeechRecognitionEventsImpl$ = function(_ptr) {
+  return new $._SpeechRecognitionEventsImpl(_ptr);
+};
+
+$._SVGElementInstanceEventsImpl$ = function(_ptr) {
+  return new $._SVGElementInstanceEventsImpl(_ptr);
+};
+
 $._EventLoop$ = function() {
   var t1 = $.DoubleLinkedQueue$();
   $.setRuntimeTypeInfo(t1, ({E: '_IsolateEvent'}));
   return new $._EventLoop(t1);
+};
+
+$._WebSocketEventsImpl$ = function(_ptr) {
+  return new $._WebSocketEventsImpl(_ptr);
 };
 
 $.Collections_collectionToString = function(c) {
@@ -2730,6 +3085,10 @@ $.MetaInfo$ = function(tag, tags, set) {
 
 $.KeyValuePair$ = function(key, value) {
   return new $.KeyValuePair(value, key);
+};
+
+$._MediaStreamEventsImpl$ = function(_ptr) {
+  return new $._MediaStreamEventsImpl(_ptr);
 };
 
 $._NativeJsSendPort$ = function(_receivePort, isolateId) {
@@ -3037,6 +3396,10 @@ $.startsWith = function(receiver, other) {
   return other == receiver.substring(0, length$);
 };
 
+$._XMLHttpRequestEventsImpl$ = function(_ptr) {
+  return new $._XMLHttpRequestEventsImpl(_ptr);
+};
+
 $.Collections__emitObject = function(o, result, visiting) {
   if (typeof o === 'object' && o !== null && (o.constructor === Array || o.is$Collection())) {
     if ($.Collections__containsRef(visiting, o) === true) {
@@ -3062,13 +3425,21 @@ $.Maps__emitMap = function(m, result, visiting) {
   $.removeLast(visiting);
 };
 
+$.iterator = function(receiver) {
+  if ($.isJsArray(receiver) === true) return $.ListIterator$(receiver);
+  return receiver.iterator$0();
+};
+
 $.Mandelbrodt_init = function() {
   $.levelColors = [[0, [255, 255, 255, 0]], [1, [0, 8, 107, 255]], [2, [0, 16, 214, 255]], [100, [255, 255, 0, 255]], [200, [255, 0, 0, 255]], [400, [0, 255, 0, 255]], [600, [0, 255, 255, 255]], [800, [254, 254, 254, 255]], [900, [128, 128, 128, 255]], [1000, [0, 0, 0, 255]]];
 };
 
-$.iterator = function(receiver) {
-  if ($.isJsArray(receiver) === true) return $.ListIterator$(receiver);
-  return receiver.iterator$0();
+$._JavaScriptAudioNodeEventsImpl$ = function(_ptr) {
+  return new $._JavaScriptAudioNodeEventsImpl(_ptr);
+};
+
+$._IDBDatabaseEventsImpl$ = function(_ptr) {
+  return new $._IDBDatabaseEventsImpl(_ptr);
 };
 
 $.toStringForNativeObject = function(obj) {
@@ -3103,6 +3474,10 @@ $.dynamicBind = function(obj, name$, methods, arguments$) {
   return method.apply(obj, arguments$);
 };
 
+$._MessagePortEventsImpl$ = function(_ptr) {
+  return new $._MessagePortEventsImpl(_ptr);
+};
+
 $._document = function() {
   return document;;
 };
@@ -3125,17 +3500,17 @@ $.index = function(a, index) {
   return $.index$slow(a, index);
 };
 
+$._TextTrackCueEventsImpl$ = function(_ptr) {
+  return new $._TextTrackCueEventsImpl(_ptr);
+};
+
+$._ElementEventsImpl$ = function(_ptr) {
+  return new $._ElementEventsImpl(_ptr);
+};
+
 $.xor = function(a, b) {
   if ($.checkNumbers(a, b) === true) return (a ^ b) >>> 0;
   return a.operator$xor$1(b);
-};
-
-$.MatchImplementation$ = function(pattern, str, _start, _end, _groups) {
-  return new $.MatchImplementation(_groups, _end, _start, str, pattern);
-};
-
-$.ListFactory_List = function(length$) {
-  return $.Primitives_newList(length$);
 };
 
 $.Arrays_indexOf = function(a, element, startIndex, endIndex) {
@@ -3153,8 +3528,25 @@ $.Arrays_indexOf = function(a, element, startIndex, endIndex) {
   return -1;
 };
 
+$.MatchImplementation$ = function(pattern, str, _start, _end, _groups) {
+  return new $.MatchImplementation(_groups, _end, _start, str, pattern);
+};
+
+$.ListFactory_List = function(length$) {
+  return $.Primitives_newList(length$);
+};
+
 $.UnsupportedOperationException$ = function(_message) {
   return new $.UnsupportedOperationException(_message);
+};
+
+$._XMLHttpRequestUploadEventsImpl$ = function(_ptr) {
+  return new $._XMLHttpRequestUploadEventsImpl(_ptr);
+};
+
+$.isEmpty = function(receiver) {
+  if (typeof receiver === 'string' || $.isJsArray(receiver) === true) return receiver.length === 0;
+  return receiver.isEmpty$0();
 };
 
 $.query = function(selector) {
@@ -3182,6 +3574,10 @@ $.indexOf$2 = function(receiver, element, start) {
     return receiver.indexOf(element, start);
   }
   return receiver.indexOf$2(element, start);
+};
+
+$._DedicatedWorkerContextEventsImpl$ = function(_ptr) {
+  return new $._DedicatedWorkerContextEventsImpl(_ptr);
 };
 
 $.addLast = function(receiver, value) {
@@ -3225,9 +3621,16 @@ $.div$slow = function(a, b) {
   return a.operator$div$1(b);
 };
 
-$.isEmpty = function(receiver) {
-  if (typeof receiver === 'string' || $.isJsArray(receiver) === true) return receiver.length === 0;
-  return receiver.isEmpty$0();
+$._FileReaderEventsImpl$ = function(_ptr) {
+  return new $._FileReaderEventsImpl(_ptr);
+};
+
+$._SharedWorkerContextEventsImpl$ = function(_ptr) {
+  return new $._SharedWorkerContextEventsImpl(_ptr);
+};
+
+$._IDBVersionChangeRequestEventsImpl$ = function(_ptr) {
+  return new $._IDBVersionChangeRequestEventsImpl(_ptr);
 };
 
 $._JsCopier$ = function() {
@@ -3259,20 +3662,17 @@ $._Manager$ = function() {
   return t1;
 };
 
-$.shl = function(a, b) {
-  if ($.checkNumbers(a, b) === true) {
-    a = (a);
-    b = (b);
-    if (b < 0) throw $.captureStackTrace($.IllegalArgumentException$(b));
-    if (b > 31) return 0;
-    return (a << b) >>> 0;
-  }
-  return a.operator$shl$1(b);
+$._FrameSetElementEventsImpl$ = function(_ptr) {
+  return new $._FrameSetElementEventsImpl(_ptr);
 };
 
 $.add$slow = function(a, b) {
   if ($.checkNumbers(a, b) === true) return a + b;
   return a.operator$add$1(b);
+};
+
+$._FileWriterEventsImpl$ = function(_ptr) {
+  return new $._FileWriterEventsImpl(_ptr);
 };
 
 $.Primitives_newList = function(length$) {
@@ -3296,8 +3696,8 @@ $.lt = function(a, b) {
   return typeof a === 'number' && typeof b === 'number' ? (a < b) : $.lt$slow(a, b);
 };
 
-$._WorkerSendPort$ = function(_workerId, isolateId, _receivePortId) {
-  return new $._WorkerSendPort(_receivePortId, _workerId, isolateId);
+$._AbstractWorkerEventsImpl$ = function(_ptr) {
+  return new $._AbstractWorkerEventsImpl(_ptr);
 };
 
 $.unwrapException = function(ex) {
@@ -3334,6 +3734,17 @@ $.NoSuchMethodException$ = function(_receiver, _functionName, _arguments, existi
   return new $.NoSuchMethodException(existingArgumentNames, _arguments, _functionName, _receiver);
 };
 
+$.shl = function(a, b) {
+  if ($.checkNumbers(a, b) === true) {
+    a = (a);
+    b = (b);
+    if (b < 0) throw $.captureStackTrace($.IllegalArgumentException$(b));
+    if (b > 31) return 0;
+    return (a << b) >>> 0;
+  }
+  return a.operator$shl$1(b);
+};
+
 $.ceil = function(receiver) {
   if (!(typeof receiver === 'number')) return receiver.ceil$0();
   return Math.ceil(receiver);
@@ -3355,8 +3766,20 @@ $.getTypeNameOf = function(obj) {
   return $._getTypeNameOf.$call$1(obj);
 };
 
+$._WorkerSendPort$ = function(_workerId, isolateId, _receivePortId) {
+  return new $._WorkerSendPort(_receivePortId, _workerId, isolateId);
+};
+
 $.IllegalArgumentException$ = function(arg) {
   return new $.IllegalArgumentException(arg);
+};
+
+$._MediaElementEventsImpl$ = function(_ptr) {
+  return new $._MediaElementEventsImpl(_ptr);
+};
+
+$._IDBTransactionEventsImpl$ = function(_ptr) {
+  return new $._IDBTransactionEventsImpl(_ptr);
 };
 
 $.sub = function(a, b) {
@@ -3365,6 +3788,10 @@ $.sub = function(a, b) {
 
 $._AllMatchesIterator$ = function(re, _str) {
   return new $._AllMatchesIterator(false, null, _str, $.JSSyntaxRegExp$_globalVersionOf(re));
+};
+
+$._BodyElementEventsImpl$ = function(_ptr) {
+  return new $._BodyElementEventsImpl(_ptr);
 };
 
 $.Mandelbrodt_colorFromLevel$bailout = function(state, env0, env1) {
@@ -3814,6 +4241,19 @@ $.defineProperty(Object.prototype, 'is$Collection', function() { return false; }
 $.defineProperty(Object.prototype, 'is$List', function() { return false; });
 $.defineProperty(Object.prototype, 'is$Map', function() { return false; });
 $.defineProperty(Object.prototype, 'toString$0', function() { return $.toStringForNativeObject(this); });
+$.$defineNativeClass('AbstractWorker', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  if (Object.getPrototypeOf(this).hasOwnProperty('get$on')) {
+    return $._AbstractWorkerEventsImpl$(this);
+  } else {
+    return Object.prototype.get$on.call(this);
+  }
+ }
+});
+
 $.$defineNativeClass('HTMLAnchorElement', [], {
  toString$0: function() {
   return this.toString();
@@ -3832,11 +4272,32 @@ $.$defineNativeClass('Attr', ["value="], {
 $.$defineNativeClass('AudioBuffer', ["length?"], {
 });
 
+$.$defineNativeClass('AudioContext', [], {
+ get$on: function() {
+  return $._AudioContextEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('AudioParam', ["value="], {
 });
 
 $.$defineNativeClass('HTMLBRElement', [], {
  clear$0: function() { return this.clear.$call$0(); }
+});
+
+$.$defineNativeClass('BatteryManager', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._BatteryManagerEventsImpl$(this);
+ }
+});
+
+$.$defineNativeClass('HTMLBodyElement', [], {
+ get$on: function() {
+  return $._BodyElementEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('HTMLButtonElement', ["value="], {
@@ -3937,6 +4398,15 @@ $.$defineNativeClass('CompositionEvent', ["data?"], {
 });
 
 _ConsoleImpl = (typeof console == 'undefined' ? {} : console);
+$.$defineNativeClass('DOMApplicationCache', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._DOMApplicationCacheEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('DOMException', [], {
  toString$0: function() {
   return this.toString();
@@ -4028,7 +4498,19 @@ $.$defineNativeClass('DedicatedWorkerContext', [], {
  },
  postMessage$1: function(message) {
   return this.postMessage(message);
-}
+},
+ get$on: function() {
+  return $._DedicatedWorkerContextEventsImpl$(this);
+ }
+});
+
+$.$defineNativeClass('DeprecatedPeerConnection', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._DeprecatedPeerConnectionEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('HTMLDocument', [], {
@@ -4044,6 +4526,9 @@ $.$defineNativeClass('HTMLDocument', [], {
  },
  $dom_createElement$1: function(tagName) {
   return this.createElement(tagName);
+ },
+ get$on: function() {
+  return $._DocumentEventsImpl$(this);
  }
 });
 
@@ -4051,6 +4536,12 @@ $.$defineNativeClass('DocumentFragment', [], {
  $dom_querySelector$1: function(selectors) {
   return this.querySelector(selectors);
  },
+ get$on: function() {
+  return $._ElementEventsImpl$(this);
+ },
+ click$0: function() {
+ },
+ get$click: function() { return new $.BoundClosure0(this, 'click$0'); },
  get$parent: function() {
   return;
  },
@@ -4065,6 +4556,17 @@ $.$defineNativeClass('DocumentFragment', [], {
 $.$defineNativeClass('Element', ["id?"], {
  $dom_querySelector$1: function(selectors) {
   return this.querySelector(selectors);
+ },
+ click$0: function() {
+  return this.click();
+ },
+ get$click: function() { return new $.BoundClosure0(this, 'click$0'); },
+ get$on: function() {
+  if (Object.getPrototypeOf(this).hasOwnProperty('get$on')) {
+    return $._ElementEventsImpl$(this);
+  } else {
+    return Object.prototype.get$on.call(this);
+  }
  },
  query$1: function(selectors) {
   return this.$dom_querySelector$1(selectors);
@@ -4101,6 +4603,32 @@ $.$defineNativeClass('EntrySync', [], {
 $.$defineNativeClass('EventException', [], {
  toString$0: function() {
   return this.toString();
+ }
+});
+
+$.$defineNativeClass('EventSource', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._EventSourceEventsImpl$(this);
+ }
+});
+
+$.$defineNativeClass('EventTarget', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  if (Object.getPrototypeOf(this).hasOwnProperty('$dom_addEventListener$3')) {
+    return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+  } else {
+    return Object.prototype.$dom_addEventListener$3.call(this, type, listener, useCapture);
+  }
+ },
+ get$on: function() {
+  if (Object.getPrototypeOf(this).hasOwnProperty('get$on')) {
+    return $._EventsImpl$(this);
+  } else {
+    return Object.prototype.get$on.call(this);
+  }
  }
 });
 
@@ -4153,7 +4681,22 @@ $.$defineNativeClass('FileList', ["length?"], {
  is$Collection: function() { return true; }
 });
 
+$.$defineNativeClass('FileReader', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._FileReaderEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('FileWriter', ["length?"], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._FileWriterEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('FileWriterSync', ["length?"], {
@@ -4238,6 +4781,12 @@ $.$defineNativeClass('HTMLFormElement', ["length?"], {
 $.$defineNativeClass('HTMLFrameElement', ["width?", "height?"], {
 });
 
+$.$defineNativeClass('HTMLFrameSetElement', [], {
+ get$on: function() {
+  return $._FrameSetElementEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('HTMLHRElement', ["width="], {
 });
 
@@ -4298,6 +4847,15 @@ $.$defineNativeClass('IDBCursor', ["key?"], {
 $.$defineNativeClass('IDBCursorWithValue', ["value?"], {
 });
 
+$.$defineNativeClass('IDBDatabase', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._IDBDatabaseEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('IDBDatabaseException', [], {
  toString$0: function() {
   return this.toString();
@@ -4316,16 +4874,54 @@ $.$defineNativeClass('IDBObjectStore', [], {
 }
 });
 
+$.$defineNativeClass('IDBRequest', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  if (Object.getPrototypeOf(this).hasOwnProperty('$dom_addEventListener$3')) {
+    return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+  } else {
+    return Object.prototype.$dom_addEventListener$3.call(this, type, listener, useCapture);
+  }
+ },
+ get$on: function() {
+  if (Object.getPrototypeOf(this).hasOwnProperty('get$on')) {
+    return $._IDBRequestEventsImpl$(this);
+  } else {
+    return Object.prototype.get$on.call(this);
+  }
+ }
+});
+
+$.$defineNativeClass('IDBTransaction', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._IDBTransactionEventsImpl$(this);
+ }
+});
+
+$.$defineNativeClass('IDBVersionChangeRequest', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._IDBVersionChangeRequestEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('HTMLIFrameElement', ["width=", "height="], {
 });
 
 $.$defineNativeClass('ImageData', ["width?", "height?", "data?"], {
 });
 
-$.$defineNativeClass('HTMLImageElement', ["width=", "height="], {
+$.$defineNativeClass('HTMLImageElement', ["y?", "x?", "width=", "height="], {
 });
 
 $.$defineNativeClass('HTMLInputElement', ["width=", "value=", "pattern?", "height="], {
+ get$on: function() {
+  return $._InputElementEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('Int16Array', ["length?"], {
@@ -4433,7 +5029,22 @@ $.$defineNativeClass('Int8Array', ["length?"], {
  is$Collection: function() { return true; }
 });
 
+$.$defineNativeClass('JavaScriptAudioNode', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._JavaScriptAudioNodeEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('HTMLLIElement', ["value="], {
+});
+
+$.$defineNativeClass('LocalMediaStream', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ }
 });
 
 $.$defineNativeClass('Location', [], {
@@ -4443,6 +5054,18 @@ $.$defineNativeClass('Location', [], {
 });
 
 $.$defineNativeClass('HTMLMarqueeElement', ["width=", "height="], {
+});
+
+$.$defineNativeClass('MediaController', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ }
+});
+
+$.$defineNativeClass('HTMLMediaElement', [], {
+ get$on: function() {
+  return $._MediaElementEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('MediaList', ["length?"], {
@@ -4479,6 +5102,19 @@ $.$defineNativeClass('MediaList', ["length?"], {
  is$Collection: function() { return true; }
 });
 
+$.$defineNativeClass('MediaStream', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  if (Object.getPrototypeOf(this).hasOwnProperty('$dom_addEventListener$3')) {
+    return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+  } else {
+    return Object.prototype.$dom_addEventListener$3.call(this, type, listener, useCapture);
+  }
+ },
+ get$on: function() {
+  return $._MediaStreamEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('MediaStreamList', ["length?"], {
 });
 
@@ -4494,10 +5130,19 @@ $.$defineNativeClass('MessagePort', [], {
  },
  postMessage$1: function(message) {
   return this.postMessage(message);
-}
+},
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._MessagePortEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('HTMLMeterElement', ["value="], {
+});
+
+$.$defineNativeClass('MouseEvent', ["y?", "x?"], {
 });
 
 $.$defineNativeClass('NamedNodeMap', ["length?"], {
@@ -4546,6 +5191,9 @@ $.$defineNativeClass('Node', [], {
  },
  $dom_appendChild$1: function(newChild) {
   return this.appendChild(newChild);
+ },
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
  },
  set$text: function(value) {
   this.textContent = value;;
@@ -4607,6 +5255,12 @@ $.$defineNativeClass('NodeList', ["length?"], {
 });
 
 $.$defineNativeClass('Notification', ["tag?"], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._NotificationEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('HTMLObjectElement', ["width=", "height=", "data?"], {
@@ -4619,6 +5273,18 @@ $.$defineNativeClass('HTMLOutputElement', ["value="], {
 });
 
 $.$defineNativeClass('HTMLParamElement', ["value="], {
+});
+
+$.$defineNativeClass('PeerConnection00', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._PeerConnection00EventsImpl$(this);
+ }
+});
+
+$.$defineNativeClass('WebKitPoint', ["y?", "x?"], {
 });
 
 $.$defineNativeClass('HTMLPreElement', ["width="], {
@@ -4653,9 +5319,18 @@ $.$defineNativeClass('SQLResultSetRowList', ["length?"], {
 $.$defineNativeClass('SVGAngle', ["value="], {
 });
 
+$.$defineNativeClass('SVGCursorElement', ["y?", "x?"], {
+});
+
 $.$defineNativeClass('SVGElement', [], {
  get$id: function() {
   return this.id;;
+ }
+});
+
+$.$defineNativeClass('SVGElementInstance', [], {
+ get$on: function() {
+  return $._SVGElementInstanceEventsImpl$(this);
  }
 });
 
@@ -4668,64 +5343,73 @@ $.$defineNativeClass('SVGException', [], {
  }
 });
 
-$.$defineNativeClass('SVGFEBlendElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEBlendElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEColorMatrixElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEColorMatrixElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEComponentTransferElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEComponentTransferElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFECompositeElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFECompositeElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEConvolveMatrixElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEConvolveMatrixElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEDiffuseLightingElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEDiffuseLightingElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEDisplacementMapElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEDisplacementMapElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEDropShadowElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEDropShadowElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEFloodElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEFloodElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEGaussianBlurElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEGaussianBlurElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEImageElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEImageElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEMergeElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEMergeElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEMorphologyElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEMorphologyElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFEOffsetElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEOffsetElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFESpecularLightingElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFEPointLightElement', ["y?", "x?"], {
 });
 
-$.$defineNativeClass('SVGFETileElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFESpecularLightingElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGFETurbulenceElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFESpotLightElement', ["y?", "x?"], {
 });
 
-$.$defineNativeClass('SVGFilterElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFETileElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGForeignObjectElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFETurbulenceElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGImageElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGFilterElement', ["y?", "x?", "width?", "height?"], {
+});
+
+$.$defineNativeClass('SVGForeignObjectElement', ["y?", "x?", "width?", "height?"], {
+});
+
+$.$defineNativeClass('SVGGlyphRefElement', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGImageElement', ["y?", "x?", "width?", "height?"], {
 });
 
 $.$defineNativeClass('SVGLength', ["value="], {
@@ -4737,7 +5421,7 @@ $.$defineNativeClass('SVGLengthList', [], {
  }
 });
 
-$.$defineNativeClass('SVGMaskElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGMaskElement', ["y?", "x?", "width?", "height?"], {
 });
 
 $.$defineNativeClass('SVGNumber', ["value="], {
@@ -4749,13 +5433,70 @@ $.$defineNativeClass('SVGNumberList', [], {
  }
 });
 
+$.$defineNativeClass('SVGPathSegArcAbs', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegArcRel', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegCurvetoCubicAbs', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegCurvetoCubicRel', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegCurvetoCubicSmoothAbs', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegCurvetoCubicSmoothRel', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegCurvetoQuadraticAbs', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegCurvetoQuadraticRel', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegCurvetoQuadraticSmoothAbs', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegCurvetoQuadraticSmoothRel', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegLinetoAbs', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegLinetoHorizontalAbs', ["x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegLinetoHorizontalRel', ["x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegLinetoRel', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegLinetoVerticalAbs', ["y?"], {
+});
+
+$.$defineNativeClass('SVGPathSegLinetoVerticalRel', ["y?"], {
+});
+
 $.$defineNativeClass('SVGPathSegList', [], {
  clear$0: function() {
   return this.clear();
  }
 });
 
-$.$defineNativeClass('SVGPatternElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGPathSegMovetoAbs', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPathSegMovetoRel', ["y?", "x?"], {
+});
+
+$.$defineNativeClass('SVGPatternElement', ["y?", "x?", "width?", "height?"], {
+});
+
+$.$defineNativeClass('SVGPoint', ["y?", "x?"], {
 });
 
 $.$defineNativeClass('SVGPointList', [], {
@@ -4764,13 +5505,13 @@ $.$defineNativeClass('SVGPointList', [], {
  }
 });
 
-$.$defineNativeClass('SVGRect', ["width=", "height="], {
+$.$defineNativeClass('SVGRect', ["y?", "x?", "width=", "height="], {
 });
 
-$.$defineNativeClass('SVGRectElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGRectElement', ["y?", "x?", "width?", "height?"], {
 });
 
-$.$defineNativeClass('SVGSVGElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGSVGElement', ["y?", "x?", "width?", "height?"], {
 });
 
 $.$defineNativeClass('SVGStringList', [], {
@@ -4779,13 +5520,16 @@ $.$defineNativeClass('SVGStringList', [], {
  }
 });
 
+$.$defineNativeClass('SVGTextPositioningElement', ["y?", "x?"], {
+});
+
 $.$defineNativeClass('SVGTransformList', [], {
  clear$0: function() {
   return this.clear();
  }
 });
 
-$.$defineNativeClass('SVGUseElement', ["width?", "height?"], {
+$.$defineNativeClass('SVGUseElement', ["y?", "x?", "width?", "height?"], {
 });
 
 $.$defineNativeClass('Screen', ["width?", "height?"], {
@@ -4803,10 +5547,25 @@ $.$defineNativeClass('ShadowRoot', [], {
  }
 });
 
+$.$defineNativeClass('SharedWorkerContext', [], {
+ get$on: function() {
+  return $._SharedWorkerContextEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('SpeechGrammarList', ["length?"], {
 });
 
 $.$defineNativeClass('SpeechInputResultList', ["length?"], {
+});
+
+$.$defineNativeClass('SpeechRecognition', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._SpeechRecognitionEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('SpeechRecognitionResult', ["length?"], {
@@ -4926,13 +5685,34 @@ $.$defineNativeClass('TextEvent', ["data?"], {
 $.$defineNativeClass('TextMetrics', ["width?"], {
 });
 
+$.$defineNativeClass('TextTrack', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._TextTrackEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('TextTrackCue', ["text!", "id?"], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._TextTrackCueEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('TextTrackCueList', ["length?"], {
 });
 
 $.$defineNativeClass('TextTrackList', ["length?"], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._TextTrackListEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('TimeRanges', ["length?"], {
@@ -5085,12 +5865,30 @@ $.$defineNativeClass('Uint8ClampedArray', [], {
 $.$defineNativeClass('HTMLVideoElement', ["width=", "height="], {
 });
 
+$.$defineNativeClass('WebSocket', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._WebSocketEventsImpl$(this);
+ }
+});
+
+$.$defineNativeClass('WheelEvent', ["y?", "x?"], {
+});
+
 $.$defineNativeClass('DOMWindow', ["length?", "innerWidth?", "innerHeight?"], {
  setTimeout$2: function(handler, timeout) {
   return this.setTimeout($.convertDartClosureToJS(handler, 0),timeout);
  },
  moveTo$2: function(x, y) {
   return this.moveTo(x,y);
+ },
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._WindowEventsImpl$(this);
  },
  _ensureRequestAnimationFrame$0: function() {
      if (this.requestAnimationFrame && this.cancelAnimationFrame) return;
@@ -5123,12 +5921,25 @@ $.$defineNativeClass('Worker', [], {
  },
  postMessage$1: function(message) {
   return this.postMessage(message);
-}
+},
+ get$on: function() {
+  return $._WorkerEventsImpl$(this);
+ }
 });
 
 $.$defineNativeClass('WorkerContext', [], {
  setTimeout$2: function(handler, timeout) {
   return this.setTimeout($.convertDartClosureToJS(handler, 0),timeout);
+ },
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  if (Object.getPrototypeOf(this).hasOwnProperty('get$on')) {
+    return $._WorkerContextEventsImpl$(this);
+  } else {
+    return Object.prototype.get$on.call(this);
+  }
  }
 });
 
@@ -5138,9 +5949,27 @@ $.$defineNativeClass('WorkerLocation', [], {
  }
 });
 
+$.$defineNativeClass('XMLHttpRequest', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._XMLHttpRequestEventsImpl$(this);
+ }
+});
+
 $.$defineNativeClass('XMLHttpRequestException', [], {
  toString$0: function() {
   return this.toString();
+ }
+});
+
+$.$defineNativeClass('XMLHttpRequestUpload', [], {
+ $dom_addEventListener$3: function(type, listener, useCapture) {
+  return this.addEventListener(type,$.convertDartClosureToJS(listener, 1),useCapture);
+ },
+ get$on: function() {
+  return $._XMLHttpRequestUploadEventsImpl$(this);
  }
 });
 
@@ -5153,6 +5982,12 @@ $.$defineNativeClass('XPathException', [], {
 $.$defineNativeClass('XSLTProcessor', [], {
  reset$0: function() {
   return this.reset();
+ }
+});
+
+$.$defineNativeClass('IDBOpenDBRequest', [], {
+ get$on: function() {
+  return $._IDBOpenDBRequestEventsImpl$(this);
  }
 });
 
@@ -5171,33 +6006,46 @@ $.$defineNativeClass('Worker', [], {
  }
 });
 
-// 159 dynamic classes.
-// 276 classes
-// 23 !leaf
+// 214 dynamic classes.
+// 323 classes
+// 27 !leaf
 (function(){
-  var v0/*class(_SVGElementImpl)*/ = 'SVGElement|SVGViewElement|SVGVKernElement|SVGUseElement|SVGTitleElement|SVGTextContentElement|SVGTextPositioningElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextPathElement|SVGTextPositioningElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextPathElement|SVGSymbolElement|SVGSwitchElement|SVGStyleElement|SVGStopElement|SVGScriptElement|SVGSVGElement|SVGRectElement|SVGPolylineElement|SVGPolygonElement|SVGPatternElement|SVGPathElement|SVGMissingGlyphElement|SVGMetadataElement|SVGMaskElement|SVGMarkerElement|SVGMPathElement|SVGLineElement|SVGImageElement|SVGHKernElement|SVGGradientElement|SVGRadialGradientElement|SVGLinearGradientElement|SVGRadialGradientElement|SVGLinearGradientElement|SVGGlyphRefElement|SVGGlyphElement|SVGGElement|SVGForeignObjectElement|SVGFontFaceUriElement|SVGFontFaceSrcElement|SVGFontFaceNameElement|SVGFontFaceFormatElement|SVGFontFaceElement|SVGFontElement|SVGFilterElement|SVGFETurbulenceElement|SVGFETileElement|SVGFESpotLightElement|SVGFESpecularLightingElement|SVGFEPointLightElement|SVGFEOffsetElement|SVGFEMorphologyElement|SVGFEMergeNodeElement|SVGFEMergeElement|SVGFEImageElement|SVGFEGaussianBlurElement|SVGFEFloodElement|SVGFEDropShadowElement|SVGFEDistantLightElement|SVGFEDisplacementMapElement|SVGFEDiffuseLightingElement|SVGFEConvolveMatrixElement|SVGFECompositeElement|SVGFEComponentTransferElement|SVGFEColorMatrixElement|SVGFEBlendElement|SVGEllipseElement|SVGDescElement|SVGDefsElement|SVGCursorElement|SVGComponentTransferFunctionElement|SVGFEFuncRElement|SVGFEFuncGElement|SVGFEFuncBElement|SVGFEFuncAElement|SVGFEFuncRElement|SVGFEFuncGElement|SVGFEFuncBElement|SVGFEFuncAElement|SVGClipPathElement|SVGCircleElement|SVGAnimationElement|SVGSetElement|SVGAnimateTransformElement|SVGAnimateMotionElement|SVGAnimateElement|SVGAnimateColorElement|SVGSetElement|SVGAnimateTransformElement|SVGAnimateMotionElement|SVGAnimateElement|SVGAnimateColorElement|SVGAltGlyphItemElement|SVGAltGlyphDefElement|SVGAElement|SVGViewElement|SVGVKernElement|SVGUseElement|SVGTitleElement|SVGTextContentElement|SVGTextPositioningElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextPathElement|SVGTextPositioningElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextPathElement|SVGSymbolElement|SVGSwitchElement|SVGStyleElement|SVGStopElement|SVGScriptElement|SVGSVGElement|SVGRectElement|SVGPolylineElement|SVGPolygonElement|SVGPatternElement|SVGPathElement|SVGMissingGlyphElement|SVGMetadataElement|SVGMaskElement|SVGMarkerElement|SVGMPathElement|SVGLineElement|SVGImageElement|SVGHKernElement|SVGGradientElement|SVGRadialGradientElement|SVGLinearGradientElement|SVGRadialGradientElement|SVGLinearGradientElement|SVGGlyphRefElement|SVGGlyphElement|SVGGElement|SVGForeignObjectElement|SVGFontFaceUriElement|SVGFontFaceSrcElement|SVGFontFaceNameElement|SVGFontFaceFormatElement|SVGFontFaceElement|SVGFontElement|SVGFilterElement|SVGFETurbulenceElement|SVGFETileElement|SVGFESpotLightElement|SVGFESpecularLightingElement|SVGFEPointLightElement|SVGFEOffsetElement|SVGFEMorphologyElement|SVGFEMergeNodeElement|SVGFEMergeElement|SVGFEImageElement|SVGFEGaussianBlurElement|SVGFEFloodElement|SVGFEDropShadowElement|SVGFEDistantLightElement|SVGFEDisplacementMapElement|SVGFEDiffuseLightingElement|SVGFEConvolveMatrixElement|SVGFECompositeElement|SVGFEComponentTransferElement|SVGFEColorMatrixElement|SVGFEBlendElement|SVGEllipseElement|SVGDescElement|SVGDefsElement|SVGCursorElement|SVGComponentTransferFunctionElement|SVGFEFuncRElement|SVGFEFuncGElement|SVGFEFuncBElement|SVGFEFuncAElement|SVGFEFuncRElement|SVGFEFuncGElement|SVGFEFuncBElement|SVGFEFuncAElement|SVGClipPathElement|SVGCircleElement|SVGAnimationElement|SVGSetElement|SVGAnimateTransformElement|SVGAnimateMotionElement|SVGAnimateElement|SVGAnimateColorElement|SVGSetElement|SVGAnimateTransformElement|SVGAnimateMotionElement|SVGAnimateElement|SVGAnimateColorElement|SVGAltGlyphItemElement|SVGAltGlyphDefElement|SVGAElement';
-  var v1/*class(_ElementImpl)*/ = [v0/*class(_SVGElementImpl)*/,v0/*class(_SVGElementImpl)*/,'Element|HTMLUnknownElement|HTMLUListElement|HTMLTrackElement|HTMLTitleElement|HTMLTextAreaElement|HTMLTableSectionElement|HTMLTableRowElement|HTMLTableElement|HTMLTableColElement|HTMLTableCellElement|HTMLTableCaptionElement|HTMLStyleElement|HTMLSpanElement|HTMLSourceElement|HTMLShadowElement|HTMLSelectElement|HTMLScriptElement|HTMLQuoteElement|HTMLProgressElement|HTMLPreElement|HTMLParamElement|HTMLParagraphElement|HTMLOutputElement|HTMLOptionElement|HTMLOptGroupElement|HTMLObjectElement|HTMLOListElement|HTMLModElement|HTMLMeterElement|HTMLMetaElement|HTMLMenuElement|HTMLMediaElement|HTMLVideoElement|HTMLAudioElement|HTMLVideoElement|HTMLAudioElement|HTMLMarqueeElement|HTMLMapElement|HTMLLinkElement|HTMLLegendElement|HTMLLabelElement|HTMLLIElement|HTMLKeygenElement|HTMLInputElement|HTMLImageElement|HTMLIFrameElement|HTMLHtmlElement|HTMLHeadingElement|HTMLHeadElement|HTMLHRElement|HTMLFrameSetElement|HTMLFrameElement|HTMLFormElement|HTMLFontElement|HTMLFieldSetElement|HTMLEmbedElement|HTMLDivElement|HTMLDirectoryElement|HTMLDetailsElement|HTMLDListElement|HTMLContentElement|HTMLCanvasElement|HTMLButtonElement|HTMLBodyElement|HTMLBaseFontElement|HTMLBaseElement|HTMLBRElement|HTMLAreaElement|HTMLAppletElement|HTMLAnchorElement|HTMLElement|HTMLUnknownElement|HTMLUListElement|HTMLTrackElement|HTMLTitleElement|HTMLTextAreaElement|HTMLTableSectionElement|HTMLTableRowElement|HTMLTableElement|HTMLTableColElement|HTMLTableCellElement|HTMLTableCaptionElement|HTMLStyleElement|HTMLSpanElement|HTMLSourceElement|HTMLShadowElement|HTMLSelectElement|HTMLScriptElement|HTMLQuoteElement|HTMLProgressElement|HTMLPreElement|HTMLParamElement|HTMLParagraphElement|HTMLOutputElement|HTMLOptionElement|HTMLOptGroupElement|HTMLObjectElement|HTMLOListElement|HTMLModElement|HTMLMeterElement|HTMLMetaElement|HTMLMenuElement|HTMLMediaElement|HTMLVideoElement|HTMLAudioElement|HTMLVideoElement|HTMLAudioElement|HTMLMarqueeElement|HTMLMapElement|HTMLLinkElement|HTMLLegendElement|HTMLLabelElement|HTMLLIElement|HTMLKeygenElement|HTMLInputElement|HTMLImageElement|HTMLIFrameElement|HTMLHtmlElement|HTMLHeadingElement|HTMLHeadElement|HTMLHRElement|HTMLFrameSetElement|HTMLFrameElement|HTMLFormElement|HTMLFontElement|HTMLFieldSetElement|HTMLEmbedElement|HTMLDivElement|HTMLDirectoryElement|HTMLDetailsElement|HTMLDListElement|HTMLContentElement|HTMLCanvasElement|HTMLButtonElement|HTMLBodyElement|HTMLBaseFontElement|HTMLBaseElement|HTMLBRElement|HTMLAreaElement|HTMLAppletElement|HTMLAnchorElement|HTMLElement'].join('|');
-  var v2/*class(_DocumentFragmentImpl)*/ = 'DocumentFragment|ShadowRoot|ShadowRoot';
-  var v3/*class(_DocumentImpl)*/ = 'HTMLDocument|SVGDocument|SVGDocument';
-  var v4/*class(_CharacterDataImpl)*/ = 'CharacterData|Text|CDATASection|CDATASection|Comment|Text|CDATASection|CDATASection|Comment';
+  var v0/*class(_SVGTextPositioningElementImpl)*/ = 'SVGTextPositioningElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement|SVGTextElement|SVGTSpanElement|SVGTRefElement|SVGAltGlyphElement';
+  var v1/*class(_SVGElementImpl)*/ = [v0/*class(_SVGTextPositioningElementImpl)*/,v0/*class(_SVGTextPositioningElementImpl)*/,v0/*class(_SVGTextPositioningElementImpl)*/,v0/*class(_SVGTextPositioningElementImpl)*/,'SVGElement|SVGViewElement|SVGVKernElement|SVGUseElement|SVGTitleElement|SVGTextContentElement|SVGTextPathElement|SVGTextPathElement|SVGSymbolElement|SVGSwitchElement|SVGStyleElement|SVGStopElement|SVGScriptElement|SVGSVGElement|SVGRectElement|SVGPolylineElement|SVGPolygonElement|SVGPatternElement|SVGPathElement|SVGMissingGlyphElement|SVGMetadataElement|SVGMaskElement|SVGMarkerElement|SVGMPathElement|SVGLineElement|SVGImageElement|SVGHKernElement|SVGGradientElement|SVGRadialGradientElement|SVGLinearGradientElement|SVGRadialGradientElement|SVGLinearGradientElement|SVGGlyphRefElement|SVGGlyphElement|SVGGElement|SVGForeignObjectElement|SVGFontFaceUriElement|SVGFontFaceSrcElement|SVGFontFaceNameElement|SVGFontFaceFormatElement|SVGFontFaceElement|SVGFontElement|SVGFilterElement|SVGFETurbulenceElement|SVGFETileElement|SVGFESpotLightElement|SVGFESpecularLightingElement|SVGFEPointLightElement|SVGFEOffsetElement|SVGFEMorphologyElement|SVGFEMergeNodeElement|SVGFEMergeElement|SVGFEImageElement|SVGFEGaussianBlurElement|SVGFEFloodElement|SVGFEDropShadowElement|SVGFEDistantLightElement|SVGFEDisplacementMapElement|SVGFEDiffuseLightingElement|SVGFEConvolveMatrixElement|SVGFECompositeElement|SVGFEComponentTransferElement|SVGFEColorMatrixElement|SVGFEBlendElement|SVGEllipseElement|SVGDescElement|SVGDefsElement|SVGCursorElement|SVGComponentTransferFunctionElement|SVGFEFuncRElement|SVGFEFuncGElement|SVGFEFuncBElement|SVGFEFuncAElement|SVGFEFuncRElement|SVGFEFuncGElement|SVGFEFuncBElement|SVGFEFuncAElement|SVGClipPathElement|SVGCircleElement|SVGAnimationElement|SVGSetElement|SVGAnimateTransformElement|SVGAnimateMotionElement|SVGAnimateElement|SVGAnimateColorElement|SVGSetElement|SVGAnimateTransformElement|SVGAnimateMotionElement|SVGAnimateElement|SVGAnimateColorElement|SVGAltGlyphItemElement|SVGAltGlyphDefElement|SVGAElement|SVGViewElement|SVGVKernElement|SVGUseElement|SVGTitleElement|SVGTextContentElement|SVGTextPathElement|SVGTextPathElement|SVGSymbolElement|SVGSwitchElement|SVGStyleElement|SVGStopElement|SVGScriptElement|SVGSVGElement|SVGRectElement|SVGPolylineElement|SVGPolygonElement|SVGPatternElement|SVGPathElement|SVGMissingGlyphElement|SVGMetadataElement|SVGMaskElement|SVGMarkerElement|SVGMPathElement|SVGLineElement|SVGImageElement|SVGHKernElement|SVGGradientElement|SVGRadialGradientElement|SVGLinearGradientElement|SVGRadialGradientElement|SVGLinearGradientElement|SVGGlyphRefElement|SVGGlyphElement|SVGGElement|SVGForeignObjectElement|SVGFontFaceUriElement|SVGFontFaceSrcElement|SVGFontFaceNameElement|SVGFontFaceFormatElement|SVGFontFaceElement|SVGFontElement|SVGFilterElement|SVGFETurbulenceElement|SVGFETileElement|SVGFESpotLightElement|SVGFESpecularLightingElement|SVGFEPointLightElement|SVGFEOffsetElement|SVGFEMorphologyElement|SVGFEMergeNodeElement|SVGFEMergeElement|SVGFEImageElement|SVGFEGaussianBlurElement|SVGFEFloodElement|SVGFEDropShadowElement|SVGFEDistantLightElement|SVGFEDisplacementMapElement|SVGFEDiffuseLightingElement|SVGFEConvolveMatrixElement|SVGFECompositeElement|SVGFEComponentTransferElement|SVGFEColorMatrixElement|SVGFEBlendElement|SVGEllipseElement|SVGDescElement|SVGDefsElement|SVGCursorElement|SVGComponentTransferFunctionElement|SVGFEFuncRElement|SVGFEFuncGElement|SVGFEFuncBElement|SVGFEFuncAElement|SVGFEFuncRElement|SVGFEFuncGElement|SVGFEFuncBElement|SVGFEFuncAElement|SVGClipPathElement|SVGCircleElement|SVGAnimationElement|SVGSetElement|SVGAnimateTransformElement|SVGAnimateMotionElement|SVGAnimateElement|SVGAnimateColorElement|SVGSetElement|SVGAnimateTransformElement|SVGAnimateMotionElement|SVGAnimateElement|SVGAnimateColorElement|SVGAltGlyphItemElement|SVGAltGlyphDefElement|SVGAElement'].join('|');
+  var v2/*class(_MediaElementImpl)*/ = 'HTMLMediaElement|HTMLVideoElement|HTMLAudioElement|HTMLVideoElement|HTMLAudioElement';
+  var v3/*class(_ElementImpl)*/ = [v1/*class(_SVGElementImpl)*/,v2/*class(_MediaElementImpl)*/,v1/*class(_SVGElementImpl)*/,v2/*class(_MediaElementImpl)*/,'Element|HTMLUnknownElement|HTMLUListElement|HTMLTrackElement|HTMLTitleElement|HTMLTextAreaElement|HTMLTableSectionElement|HTMLTableRowElement|HTMLTableElement|HTMLTableColElement|HTMLTableCellElement|HTMLTableCaptionElement|HTMLStyleElement|HTMLSpanElement|HTMLSourceElement|HTMLShadowElement|HTMLSelectElement|HTMLScriptElement|HTMLQuoteElement|HTMLProgressElement|HTMLPreElement|HTMLParamElement|HTMLParagraphElement|HTMLOutputElement|HTMLOptionElement|HTMLOptGroupElement|HTMLObjectElement|HTMLOListElement|HTMLModElement|HTMLMeterElement|HTMLMetaElement|HTMLMenuElement|HTMLMarqueeElement|HTMLMapElement|HTMLLinkElement|HTMLLegendElement|HTMLLabelElement|HTMLLIElement|HTMLKeygenElement|HTMLInputElement|HTMLImageElement|HTMLIFrameElement|HTMLHtmlElement|HTMLHeadingElement|HTMLHeadElement|HTMLHRElement|HTMLFrameSetElement|HTMLFrameElement|HTMLFormElement|HTMLFontElement|HTMLFieldSetElement|HTMLEmbedElement|HTMLDivElement|HTMLDirectoryElement|HTMLDetailsElement|HTMLDListElement|HTMLContentElement|HTMLCanvasElement|HTMLButtonElement|HTMLBodyElement|HTMLBaseFontElement|HTMLBaseElement|HTMLBRElement|HTMLAreaElement|HTMLAppletElement|HTMLAnchorElement|HTMLElement|HTMLUnknownElement|HTMLUListElement|HTMLTrackElement|HTMLTitleElement|HTMLTextAreaElement|HTMLTableSectionElement|HTMLTableRowElement|HTMLTableElement|HTMLTableColElement|HTMLTableCellElement|HTMLTableCaptionElement|HTMLStyleElement|HTMLSpanElement|HTMLSourceElement|HTMLShadowElement|HTMLSelectElement|HTMLScriptElement|HTMLQuoteElement|HTMLProgressElement|HTMLPreElement|HTMLParamElement|HTMLParagraphElement|HTMLOutputElement|HTMLOptionElement|HTMLOptGroupElement|HTMLObjectElement|HTMLOListElement|HTMLModElement|HTMLMeterElement|HTMLMetaElement|HTMLMenuElement|HTMLMarqueeElement|HTMLMapElement|HTMLLinkElement|HTMLLegendElement|HTMLLabelElement|HTMLLIElement|HTMLKeygenElement|HTMLInputElement|HTMLImageElement|HTMLIFrameElement|HTMLHtmlElement|HTMLHeadingElement|HTMLHeadElement|HTMLHRElement|HTMLFrameSetElement|HTMLFrameElement|HTMLFormElement|HTMLFontElement|HTMLFieldSetElement|HTMLEmbedElement|HTMLDivElement|HTMLDirectoryElement|HTMLDetailsElement|HTMLDListElement|HTMLContentElement|HTMLCanvasElement|HTMLButtonElement|HTMLBodyElement|HTMLBaseFontElement|HTMLBaseElement|HTMLBRElement|HTMLAreaElement|HTMLAppletElement|HTMLAnchorElement|HTMLElement'].join('|');
+  var v4/*class(_DocumentFragmentImpl)*/ = 'DocumentFragment|ShadowRoot|ShadowRoot';
+  var v5/*class(_DocumentImpl)*/ = 'HTMLDocument|SVGDocument|SVGDocument';
+  var v6/*class(_CharacterDataImpl)*/ = 'CharacterData|Text|CDATASection|CDATASection|Comment|Text|CDATASection|CDATASection|Comment';
+  var v7/*class(_WorkerContextImpl)*/ = 'WorkerContext|SharedWorkerContext|DedicatedWorkerContext|SharedWorkerContext|DedicatedWorkerContext';
+  var v8/*class(_NodeImpl)*/ = [v3/*class(_ElementImpl)*/,v4/*class(_DocumentFragmentImpl)*/,v5/*class(_DocumentImpl)*/,v6/*class(_CharacterDataImpl)*/,v3/*class(_ElementImpl)*/,v4/*class(_DocumentFragmentImpl)*/,v5/*class(_DocumentImpl)*/,v6/*class(_CharacterDataImpl)*/,'Node|ProcessingInstruction|Notation|EntityReference|Entity|DocumentType|Attr|ProcessingInstruction|Notation|EntityReference|Entity|DocumentType|Attr'].join('|');
+  var v9/*class(_MediaStreamImpl)*/ = 'MediaStream|LocalMediaStream|LocalMediaStream';
+  var v10/*class(_IDBRequestImpl)*/ = 'IDBRequest|IDBOpenDBRequest|IDBVersionChangeRequest|IDBOpenDBRequest|IDBVersionChangeRequest';
+  var v11/*class(_AbstractWorkerImpl)*/ = 'AbstractWorker|Worker|SharedWorker|Worker|SharedWorker';
   var table = [
     // [dynamic-dispatch-tag, tags of classes implementing dynamic-dispatch-tag]
+    ['SVGTextPositioningElement', v0/*class(_SVGTextPositioningElementImpl)*/],
+    ['Uint8Array', 'Uint8Array|Uint8ClampedArray|Uint8ClampedArray'],
+    ['AbstractWorker', v11/*class(_AbstractWorkerImpl)*/],
+    ['AudioParam', 'AudioParam|AudioGain|AudioGain'],
+    ['WorkerContext', v7/*class(_WorkerContextImpl)*/],
+    ['CSSValueList', 'CSSValueList|WebKitCSSFilterValue|WebKitCSSTransformValue|WebKitCSSFilterValue|WebKitCSSTransformValue'],
+    ['CharacterData', v6/*class(_CharacterDataImpl)*/],
+    ['DOMTokenList', 'DOMTokenList|DOMSettableTokenList|DOMSettableTokenList'],
+    ['HTMLDocument', v5/*class(_DocumentImpl)*/],
+    ['DocumentFragment', v4/*class(_DocumentFragmentImpl)*/],
+    ['SVGElement', v1/*class(_SVGElementImpl)*/],
+    ['HTMLMediaElement', v2/*class(_MediaElementImpl)*/],
+    ['Element', v3/*class(_ElementImpl)*/],
+    ['Entry', 'Entry|FileEntry|DirectoryEntry|FileEntry|DirectoryEntry'],
+    ['EntrySync', 'EntrySync|FileEntrySync|DirectoryEntrySync|FileEntrySync|DirectoryEntrySync'],
+    ['Node', v8/*class(_NodeImpl)*/],
+    ['MediaStream', v9/*class(_MediaStreamImpl)*/],
+    ['IDBRequest', v10/*class(_IDBRequestImpl)*/],
+    ['EventTarget', [v7/*class(_WorkerContextImpl)*/,v8/*class(_NodeImpl)*/,v9/*class(_MediaStreamImpl)*/,v10/*class(_IDBRequestImpl)*/,v11/*class(_AbstractWorkerImpl)*/,v7/*class(_WorkerContextImpl)*/,v8/*class(_NodeImpl)*/,v9/*class(_MediaStreamImpl)*/,v10/*class(_IDBRequestImpl)*/,v11/*class(_AbstractWorkerImpl)*/,'EventTarget|XMLHttpRequestUpload|XMLHttpRequest|DOMWindow|WebSocket|TextTrackList|TextTrackCue|TextTrack|SpeechRecognition|PeerConnection00|Notification|MessagePort|MediaController|IDBTransaction|IDBDatabase|FileWriter|FileReader|EventSource|DeprecatedPeerConnection|DOMApplicationCache|BatteryManager|AudioContext|XMLHttpRequestUpload|XMLHttpRequest|DOMWindow|WebSocket|TextTrackList|TextTrackCue|TextTrack|SpeechRecognition|PeerConnection00|Notification|MessagePort|MediaController|IDBTransaction|IDBDatabase|FileWriter|FileReader|EventSource|DeprecatedPeerConnection|DOMApplicationCache|BatteryManager|AudioContext'].join('|')],
     ['HTMLCollection', 'HTMLCollection|HTMLOptionsCollection|HTMLOptionsCollection'],
     ['IDBCursor', 'IDBCursor|IDBCursorWithValue|IDBCursorWithValue'],
-    ['SVGElement', v0/*class(_SVGElementImpl)*/],
-    ['Element', v1/*class(_ElementImpl)*/],
-    ['DocumentFragment', v2/*class(_DocumentFragmentImpl)*/],
-    ['HTMLDocument', v3/*class(_DocumentImpl)*/],
-    ['CharacterData', v4/*class(_CharacterDataImpl)*/],
-    ['Node', [v1/*class(_ElementImpl)*/,v2/*class(_DocumentFragmentImpl)*/,v3/*class(_DocumentImpl)*/,v4/*class(_CharacterDataImpl)*/,v1/*class(_ElementImpl)*/,v2/*class(_DocumentFragmentImpl)*/,v3/*class(_DocumentImpl)*/,v4/*class(_CharacterDataImpl)*/,'Node|ProcessingInstruction|Notation|EntityReference|Entity|DocumentType|Attr|ProcessingInstruction|Notation|EntityReference|Entity|DocumentType|Attr'].join('|')],
-    ['Uint8Array', 'Uint8Array|Uint8ClampedArray|Uint8ClampedArray'],
-    ['NodeList', 'NodeList|RadioNodeList|RadioNodeList'],
-    ['AudioParam', 'AudioParam|AudioGain|AudioGain'],
-    ['WorkerContext', 'WorkerContext|SharedWorkerContext|DedicatedWorkerContext|SharedWorkerContext|DedicatedWorkerContext'],
-    ['CSSValueList', 'CSSValueList|WebKitCSSFilterValue|WebKitCSSTransformValue|WebKitCSSFilterValue|WebKitCSSTransformValue'],
-    ['DOMTokenList', 'DOMTokenList|DOMSettableTokenList|DOMSettableTokenList'],
-    ['Entry', 'Entry|FileEntry|DirectoryEntry|FileEntry|DirectoryEntry'],
-    ['EntrySync', 'EntrySync|FileEntrySync|DirectoryEntrySync|FileEntrySync|DirectoryEntrySync']];
+    ['NodeList', 'NodeList|RadioNodeList|RadioNodeList']];
 $.dynamicSetMetadata(table);
 })();
 

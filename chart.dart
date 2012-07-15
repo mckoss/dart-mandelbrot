@@ -8,7 +8,7 @@ class RateChart {
   int dataOffset = 0;
   int lastTime;
   String units;
-  
+
   RateChart(CanvasElement this.canvas, this.units) {
     chartData = new List<double>(canvas.width);
     for (int i = 0; i < canvas.width; i++) {
@@ -16,18 +16,18 @@ class RateChart {
     }
     lastTime = Clock.now();
   }
-  
+
   void update(num value) {
     double dsecs = (Clock.now() - lastTime) / Clock.frequency();
     lastTime = Clock.now();
     chartData[dataOffset] = value / dsecs;
     dataOffset = (dataOffset + 1) % canvas.width;
   }
-  
+
   void draw() {
     var ctx = canvas.context2d;
     canvas.width = canvas.width;  // clear canvas (HACK - more direct way?)
-    
+
     double maxData = 0.0;
     double scale = 2.0;
     for (int i = 0; i < canvas.width; i++) {

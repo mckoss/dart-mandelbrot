@@ -30,7 +30,7 @@ class MandelbrodtDemo {
     chartCanvas.height = (availHeight * 0.25).toInt();
     displayCanvas.width = availWidth;
     displayCanvas.height = availHeight - chartCanvas.height;
-    
+
     chart = new RateChart(chartCanvas, "pixels");
     display = new ViewPort(0, 0, displayCanvas, [-2.0, 1.1, 0.5, -1.1]);
     display.adjustAspectRatio();
@@ -40,13 +40,13 @@ class MandelbrodtDemo {
 
     window.requestAnimationFrame(draw);
   }
-  
+
   prepTiles() {
     tile = display.makeTile(TILE_SIZE);
     nextTile = 0;
     numTiles = tile.numTiles();
   }
- 
+
   void onClick(e) {
     var x = e.x;
     var y = e.y - 2 - 10 - chart.canvas.height;

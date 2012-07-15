@@ -60,8 +60,6 @@ class UI {
   List<double> graphData;
   int dataOffset;
   int timeLast = 0;
-  double rcWidth;
-  double rcHeight;
 
   UI(this.display, this.graph) {
 
@@ -86,13 +84,11 @@ class UI {
 
     columns = (display.width ~/ TILE_SIZE + 1);
     tiles =  columns * (display.height ~/ TILE_SIZE + 1);
-    print("Tiles: $tiles");
     rcDisplay = [-1.1, 0.45, -1.0, 0.2];
 
     var pCanvas = display.height / display.width;
-    rcHeight = (rcDisplay[1] - rcDisplay[3]).abs();
-    rcWidth = (rcDisplay[0] - rcDisplay[2]).abs();
-    print('height $rcHeight, width $rcWidth');
+    var rcHeight = (rcDisplay[1] - rcDisplay[3]).abs();
+    var rcWidth = (rcDisplay[0] - rcDisplay[2]).abs();
     var pRect = rcHeight / rcWidth;
     List<double> rcCenter = [(rcDisplay[0] + rcDisplay[2]) / 2,
                              (rcDisplay[1] + rcDisplay[2]) / 2];
@@ -126,7 +122,6 @@ class UI {
   }
 
   bool draw(int time) {
-    print("Time: $time");
     if (tile < tiles) {
       int start = Clock.now();
       drawTile();
@@ -146,14 +141,12 @@ class UI {
     var ul = getPosition(x, y);
     var lr = getPosition(x + TILE_SIZE, y + TILE_SIZE);
     List<double> rc = [ul[0], ul[1], lr[0], lr[1]];
-    print("Drawing tile $tile/$tiles @ $rc");
 
     Mandelbrodt.render(canvasTile, rc);
     display.context2d.drawImage(canvasTile, x, y);
   }
 
   void updateData(double n) {
-    print("Pixels per sec: $n");
     graphData[dataOffset] = n;
     dataOffset = (dataOffset + 1) % cx;
   }

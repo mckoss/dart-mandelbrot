@@ -133,7 +133,6 @@ class Mandelbrodt {
 
     renderData(bitmap.data, rc, cx, cy);
     ctx.putImageData(bitmap, 0, 0);
-    print("rendered");
   }
   
 }

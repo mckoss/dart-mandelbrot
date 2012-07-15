@@ -84,6 +84,27 @@ class UI {
     tiles =  columns * (display.height ~/ TILE_SIZE + 1);
     print("Tiles: $tiles");
     rcDisplay = [-1.1, 0.45, -1.0, 0.2];
+
+    var pCanvas = display.height / display.width;
+    var rcHeight = (rcDisplay[1] - rcDisplay[3]).abs();
+    var rcWidth = (rcDisplay[0] - rcDisplay[2]).abs();
+    print('height $rcHeight, width $rcWidth');
+    var pRect = rcHeight / rcWidth;
+    List<double> rcCenter = [(rcDisplay[0] + rcDisplay[2]) / 2,
+                             (rcDisplay[1] + rcDisplay[2]) / 2];
+    
+    if (pRect < pCanvas) {
+      var cFactor = display.width / rcWidth;
+      double dy = (display.height - rcHeight * cFactor) / cFactor;
+      rcDisplay[1] -= dy / 2;
+      rcDisplay[3] += dy / 2;
+    } else {
+      var cFactor = display.height / rcHeight;
+      double dx = (display.width - rcWidth * cFactor) / cFactor;
+      rcDisplay[0] -= dx / 2;
+      rcDisplay[2] += dx / 2;
+    }
+
     tile = 0;
     window.requestAnimationFrame(draw);
   }

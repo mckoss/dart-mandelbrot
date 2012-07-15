@@ -1269,13 +1269,13 @@ $$.UI = {"":
  },
  get$draw: function() { return new $.BoundClosure(this, 'draw$1'); },
  handleOnClick$1: function(e) {
-  var t1 = e.get$x();
-  var t2 = this.cx;
-  var t3 = $.toInt($.sub(t1, $.div(t2, 4)));
-  var t4 = e.get$y();
-  var t5 = this.cy;
-  var tl = this.getPosition$2(t3, $.toInt($.sub(t4, $.div(t5, 4))));
-  var br = this.getPosition$2($.toInt($.add(e.get$x(), $.div(t2, 4))), $.toInt($.add(e.get$y(), $.div(t5, 4))));
+  var x = e.get$x();
+  var y = $.sub($.sub($.sub(e.get$y(), 2), 10), this.graph.get$height());
+  var t1 = this.cx;
+  var t2 = $.toInt($.sub(x, $.div(t1, 4)));
+  var t3 = this.cy;
+  var tl = this.getPosition$2(t2, $.toInt($.sub(y, $.div(t3, 4))));
+  var br = this.getPosition$2($.toInt($.add(x, $.div(t1, 4))), $.toInt($.add(y, $.div(t3, 4))));
   this.rcDisplay = [$.index(tl, 0), $.index(tl, 1), $.index(br, 0), $.index(br, 1)];
   this.tile = 0;
  },

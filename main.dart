@@ -2,7 +2,7 @@
 
 #import("dart:html");
 
-#import("mandelbrodt.dart");
+#import("mandelbrot.dart");
 #import("view_port.dart");
 #import("chart.dart");
 
@@ -11,19 +11,19 @@ final int BODY_PADDING = 10;
 final int CANVAS_BORDER = 1;
 
 void main() {
-  new MandelbrodtDemo(query("#display"), query("#graph"));
+  new MandelbrotDemo(query("#display"), query("#graph"));
 }
 
-class MandelbrodtDemo {
-  Mandelbrodt engine;
+class MandelbrotDemo {
+  Mandelbrot engine;
   RateChart chart;
   ViewPort display;
   ViewPort tile;
   int nextTile;
   int numTiles;
 
-  MandelbrodtDemo(displayCanvas, chartCanvas) {
-    engine = new Mandelbrodt();
+  MandelbrotDemo(displayCanvas, chartCanvas) {
+    engine = new Mandelbrot();
     int availWidth = window.innerWidth - BODY_PADDING * 2 - CANVAS_BORDER * 2;
     int availHeight = window.innerHeight - BODY_PADDING * 2 - CANVAS_BORDER * 4;
     chartCanvas.width = availWidth;

@@ -1,19 +1,19 @@
-#library("mandelbrodt");
+#library("mandelbrot");
 
 #import("dart:html");
 #import("view_port.dart");
 
 
-class Mandelbrodt {
+class Mandelbrot {
   int maxIterations;
-  
+
   static List<List> levelColors;
-  
-  Mandelbrodt() {
+
+  Mandelbrot() {
     maxIterations = 1000;
-    
+
     if (levelColors == null) {
-      levelColors = [  
+      levelColors = [
                      [0, [255, 255, 255, 0]],
                      [1, [0, 8, 107, 255]],        // dark blue background
                      [2, [0, 16, 214, 255]],
@@ -24,10 +24,10 @@ class Mandelbrodt {
                      [800, [254, 254, 254, 255]],  // white
                      [900, [128, 128, 128, 255]],  // gray
                      [1000, [0, 0, 0, 255]]        // black
-                     ]; 
+                     ];
     }
   }
-  
+
   int iterations(double x0, double y0) {
     if (y0 < 0) {
         y0 = -y0;
@@ -66,7 +66,7 @@ class Mandelbrodt {
     }
     return maxIterations;
   }
-  
+
   static List colorFromLevel(int level) {
     // Interpolate control points in this.levelColors
     // to map levels to colors.
@@ -85,7 +85,7 @@ class Mandelbrodt {
             iMax = iMid;
         }
     }
-    
+
     int levelMin = levelColors[iMin][0];
     int levelMax = levelColors[iMax][0];
     // Make sure we are not overly sensitive to rounding
@@ -101,7 +101,7 @@ class Mandelbrodt {
 
     return color;
   }
-  
+
   renderData(List<int> data, List<double> rc, int cx, int cy) {
     // Per-pixel step values
     double dx = (rc[2] - rc[0]) / cx;
@@ -123,14 +123,14 @@ class Mandelbrodt {
         y += dy;
     }
   }
-  
+
   render(CanvasElement canvas, List<double> rc) {
     var ctx = canvas.context2d;
     ImageData bitmap = ctx.createImageData(canvas.width, canvas.height);
     renderData(bitmap.data, rc, canvas.width, canvas.height);
     ctx.putImageData(bitmap, 0, 0);
   }
-  
+
   renderAt(ViewPort displayView, ViewPort tileView) {
     render(tileView.canvas, tileView.rect);
     tileView.drawOn(displayView.canvas);
@@ -143,9 +143,9 @@ class WorkResponse {
   List<int> data;
   int x, y;
   int cx, cy;
-  
+
   WorkResponse(this.data, this.x, this.y, this.cx, this.cy);
-  
+
   void render(CanvasElement canvas) {
     var ctx = canvas.context2d;
     ImageData bitmap = ctx.createImageData(cx, cy);
@@ -160,6 +160,6 @@ class WorkResponse {
 class WorkRequest {
   List<double> rc;
   int cx, cy;
-  
+
   WorkRequest(this.rc, this.cx, this.cy);
 }

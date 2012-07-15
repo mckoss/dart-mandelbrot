@@ -1113,7 +1113,7 @@ $$.FutureAlreadyCompleteException = {"":
  }
 };
 
-$$.MandelbrodtDemo = {"":
+$$.MandelbrotDemo = {"":
  ["numTiles", "nextTile", "tile", "display", "chart", "engine"],
  super: "Object",
  draw$1: function(time) {
@@ -1191,8 +1191,8 @@ $$.MandelbrodtDemo = {"":
   this.numTiles = this.tile.numTiles$0();
  },
  numTiles$0: function() { return this.numTiles.$call$0(); },
- MandelbrodtDemo$2: function(displayCanvas, chartCanvas) {
-  this.engine = $.Mandelbrodt$();
+ MandelbrotDemo$2: function(displayCanvas, chartCanvas) {
+  this.engine = $.Mandelbrot$();
   var availWidth = $.sub($.sub($.window().get$innerWidth(), 20), 2);
   var availHeight = $.sub($.sub($.window().get$innerHeight(), 20), 4);
   chartCanvas.set$width(availWidth);
@@ -2001,7 +2001,7 @@ $$._JsVisitedMap = {"":
  }
 };
 
-$$.Mandelbrodt = {"":
+$$.Mandelbrot = {"":
  ["maxIterations"],
  super: "Object",
  renderAt$2: function(displayView, tileView) {
@@ -2043,7 +2043,7 @@ $$.Mandelbrodt = {"":
     var x = $.add(rc[0], t1);
     if (typeof x !== 'number') return this.renderData$4$bailout(5, data, rc, cx, cy, ib, y, dx, iy, rgba, dy, x, 0);
     for (var ix = 0; ix < cx; ++ix) {
-      rgba = $.Mandelbrodt_colorFromLevel(this.iterations$2(x, y));
+      rgba = $.Mandelbrot_colorFromLevel(this.iterations$2(x, y));
       if (typeof rgba !== 'object' || rgba === null || ((rgba.constructor !== Array || !!rgba.immutable$list) && !rgba.is$JavaScriptIndexingBehavior())) return this.renderData$4$bailout(6, data, rc, cx, x, cy, ix, ib, y, dx, iy, rgba, dy);
       for (var i = 0; i < 4; ++i) {
         var ib0 = ib + 1;
@@ -2177,7 +2177,7 @@ $$.Mandelbrodt = {"":
               switch (state) {
                 case 0:
                   if (!$.ltB(ix, cx)) break L1;
-                  rgba = $.Mandelbrodt_colorFromLevel(this.iterations$2(x, y));
+                  rgba = $.Mandelbrot_colorFromLevel(this.iterations$2(x, y));
                 case 6:
                   state = 0;
                   for (var i = 0; i < 4; ++i) {
@@ -2248,10 +2248,10 @@ $$.Mandelbrodt = {"":
   return t1;
   var y, x, xT, i;
  },
- Mandelbrodt$0: function() {
+ Mandelbrot$0: function() {
   this.maxIterations = 1000;
-  var t1 = $.Mandelbrodt_levelColors;
-  if (t1 == null) $.Mandelbrodt_levelColors = [[0, [255, 255, 255, 0]], [1, [0, 8, 107, 255]], [2, [0, 16, 214, 255]], [100, [255, 255, 0, 255]], [200, [255, 0, 0, 255]], [400, [0, 255, 0, 255]], [600, [0, 255, 255, 255]], [800, [254, 254, 254, 255]], [900, [128, 128, 128, 255]], [1000, [0, 0, 0, 255]]];
+  var t1 = $.Mandelbrot_levelColors;
+  if (t1 == null) $.Mandelbrot_levelColors = [[0, [255, 255, 255, 0]], [1, [0, 8, 107, 255]], [2, [0, 16, 214, 255]], [100, [255, 255, 0, 255]], [200, [255, 0, 0, 255]], [400, [0, 255, 0, 255]], [600, [0, 255, 255, 255]], [800, [254, 254, 254, 255]], [900, [128, 128, 128, 255]], [1000, [0, 0, 0, 255]]];
  }
 };
 
@@ -2931,6 +2931,12 @@ $._NotificationEventsImpl$ = function(_ptr) {
   return new $._NotificationEventsImpl(_ptr);
 };
 
+$.Mandelbrot$ = function() {
+  var t1 = new $.Mandelbrot(null);
+  t1.Mandelbrot$0();
+  return t1;
+};
+
 $._MessageTraverser_isPrimitive = function(x) {
   return x == null || typeof x === 'string' || typeof x === 'number' || typeof x === 'boolean';
 };
@@ -3285,7 +3291,7 @@ $.Primitives_newList = function(length$) {
 };
 
 $.main = function() {
-  $.MandelbrodtDemo$($.query('#display'), $.query('#graph'));
+  $.MandelbrotDemo$($.query('#display'), $.query('#graph'));
 };
 
 $.Primitives_dateNow = function() {
@@ -3300,12 +3306,6 @@ $._WorkerSendPort$ = function(_workerId, isolateId, _receivePortId) {
   return new $._WorkerSendPort(_receivePortId, _workerId, isolateId);
 };
 
-$.addLast = function(receiver, value) {
-  if ($.isJsArray(receiver) !== true) return receiver.addLast$1(value);
-  $.checkGrowable(receiver, 'addLast');
-  receiver.push(value);
-};
-
 $.HashMapImplementation__computeLoadLimit = function(capacity) {
   return $.tdiv($.mul(capacity, 3), 4);
 };
@@ -3314,6 +3314,12 @@ $.HashSetIterator$ = function(set_) {
   var t1 = new $.HashSetIterator(-1, set_.get$_backingMap().get$_keys());
   t1.HashSetIterator$1(set_);
   return t1;
+};
+
+$.addLast = function(receiver, value) {
+  if ($.isJsArray(receiver) !== true) return receiver.addLast$1(value);
+  $.checkGrowable(receiver, 'addLast');
+  receiver.push(value);
 };
 
 $.IllegalArgumentException$ = function(arg) {
@@ -3520,25 +3526,19 @@ $._DeprecatedPeerConnectionEventsImpl$ = function(_ptr) {
   return new $._DeprecatedPeerConnectionEventsImpl(_ptr);
 };
 
-$.Mandelbrodt$ = function() {
-  var t1 = new $.Mandelbrodt(null);
-  t1.Mandelbrodt$0();
-  return t1;
-};
-
-$.Mandelbrodt_colorFromLevel = function(level) {
-  if (typeof level !== 'number') return $.Mandelbrodt_colorFromLevel$bailout(1, level, 0);
-  var iMax = $.get$length($.Mandelbrodt_levelColors);
-  if (typeof iMax !== 'number') return $.Mandelbrodt_colorFromLevel$bailout(2, level, iMax);
+$.Mandelbrot_colorFromLevel = function(level) {
+  if (typeof level !== 'number') return $.Mandelbrot_colorFromLevel$bailout(1, level, 0);
+  var iMax = $.get$length($.Mandelbrot_levelColors);
+  if (typeof iMax !== 'number') return $.Mandelbrot_colorFromLevel$bailout(2, level, iMax);
   for (var iMin = 0; iMin < iMax - 1; ) {
     var iMid = $.tdiv(iMin + iMax, 2);
-    var levelT = $.index($.index($.Mandelbrodt_levelColors, iMid), 0);
-    if ($.eqB(levelT, level)) return $.index($.index($.Mandelbrodt_levelColors, iMid), 1);
+    var levelT = $.index($.index($.Mandelbrot_levelColors, iMid), 0);
+    if ($.eqB(levelT, level)) return $.index($.index($.Mandelbrot_levelColors, iMid), 1);
     if ($.ltB(levelT, level)) iMin = iMid;
     else iMax = iMid;
   }
-  var levelMin = $.index($.index($.Mandelbrodt_levelColors, iMin), 0);
-  var levelMax = $.index($.index($.Mandelbrodt_levelColors, iMax), 0);
+  var levelMin = $.index($.index($.Mandelbrot_levelColors, iMin), 0);
+  var levelMax = $.index($.index($.Mandelbrot_levelColors, iMax), 0);
   if (typeof levelMin !== 'number') throw $.iae(levelMin);
   var t1 = level - levelMin;
   var t2 = $.sub(levelMax, levelMin);
@@ -3547,8 +3547,8 @@ $.Mandelbrodt_colorFromLevel = function(level) {
   var color = $.ListFactory_List(4);
   $.setRuntimeTypeInfo(color, ({E: 'int'}));
   for (var i = 0; i < 4; ++i) {
-    var cMin = $.index($.index($.index($.Mandelbrodt_levelColors, iMin), 1), i);
-    t1 = $.sub($.index($.index($.index($.Mandelbrodt_levelColors, iMax), 1), i), cMin);
+    var cMin = $.index($.index($.index($.Mandelbrot_levelColors, iMin), 1), i);
+    t1 = $.sub($.index($.index($.index($.Mandelbrot_levelColors, iMax), 1), i), cMin);
     if (typeof t1 !== 'number') throw $.iae(t1);
     var value = $.toInt($.add(cMin, p * t1));
     t2 = color.length;
@@ -3753,12 +3753,6 @@ $._WebSocketEventsImpl$ = function(_ptr) {
   return new $._WebSocketEventsImpl(_ptr);
 };
 
-$.MandelbrodtDemo$ = function(displayCanvas, chartCanvas) {
-  var t1 = new $.MandelbrodtDemo(null, null, null, null, null, null);
-  t1.MandelbrodtDemo$2(displayCanvas, chartCanvas);
-  return t1;
-};
-
 $.Collections_collectionToString = function(c) {
   var result = $.StringBufferImpl$('');
   $.Collections__emitCollection(c, result, $.ListFactory_List(null));
@@ -3896,6 +3890,16 @@ $.hashCode = function(receiver) {
   return 536870911 & hash0 + (16383 & hash0 << 15);
 };
 
+$.removeLast = function(receiver) {
+  if ($.isJsArray(receiver) === true) {
+    $.checkGrowable(receiver, 'removeLast');
+    var t1 = $.get$length(receiver);
+    if (t1 === 0) throw $.captureStackTrace($.IndexOutOfRangeException$(-1));
+    return receiver.pop();
+  }
+  return receiver.removeLast$0();
+};
+
 $._JsVisitedMap$ = function() {
   return new $._JsVisitedMap(null);
 };
@@ -3924,16 +3928,6 @@ $.startsWith = function(receiver, other) {
 
 $.toStringForNativeObject = function(obj) {
   return 'Instance of ' + $.S($.getTypeNameOf(obj));
-};
-
-$.removeLast = function(receiver) {
-  if ($.isJsArray(receiver) === true) {
-    $.checkGrowable(receiver, 'removeLast');
-    var t1 = $.get$length(receiver);
-    if (t1 === 0) throw $.captureStackTrace($.IndexOutOfRangeException$(-1));
-    return receiver.pop();
-  }
-  return receiver.removeLast$0();
 };
 
 $._Collections_forEach = function(iterable, f) {
@@ -4077,6 +4071,12 @@ $.div$slow = function(a, b) {
   return a.operator$div$1(b);
 };
 
+$.MandelbrotDemo$ = function(displayCanvas, chartCanvas) {
+  var t1 = new $.MandelbrotDemo(null, null, null, null, null, null);
+  t1.MandelbrotDemo$2(displayCanvas, chartCanvas);
+  return t1;
+};
+
 $._SharedWorkerContextEventsImpl$ = function(_ptr) {
   return new $._SharedWorkerContextEventsImpl(_ptr);
 };
@@ -4170,7 +4170,7 @@ $.sub = function(a, b) {
   return typeof a === 'number' && typeof b === 'number' ? (a - b) : $.sub$slow(a, b);
 };
 
-$.Mandelbrodt_colorFromLevel$bailout = function(state, env0, env1) {
+$.Mandelbrot_colorFromLevel$bailout = function(state, env0, env1) {
   switch (state) {
     case 1:
       var level = env0;
@@ -4184,25 +4184,25 @@ $.Mandelbrodt_colorFromLevel$bailout = function(state, env0, env1) {
     case 0:
     case 1:
       state = 0;
-      var iMax = $.get$length($.Mandelbrodt_levelColors);
+      var iMax = $.get$length($.Mandelbrot_levelColors);
     case 2:
       state = 0;
       for (var iMin = 0; $.ltB(iMin, $.sub(iMax, 1)); ) {
         if (typeof iMax !== 'number') throw $.iae(iMax);
         var iMid = $.tdiv(iMin + iMax, 2);
-        var levelT = $.index($.index($.Mandelbrodt_levelColors, iMid), 0);
-        if ($.eqB(levelT, level)) return $.index($.index($.Mandelbrodt_levelColors, iMid), 1);
+        var levelT = $.index($.index($.Mandelbrot_levelColors, iMid), 0);
+        if ($.eqB(levelT, level)) return $.index($.index($.Mandelbrot_levelColors, iMid), 1);
         if ($.ltB(levelT, level)) iMin = iMid;
         else iMax = iMid;
       }
-      var levelMin = $.index($.index($.Mandelbrodt_levelColors, iMin), 0);
-      var levelMax = $.index($.index($.Mandelbrodt_levelColors, iMax), 0);
+      var levelMin = $.index($.index($.Mandelbrot_levelColors, iMin), 0);
+      var levelMax = $.index($.index($.Mandelbrot_levelColors, iMax), 0);
       var p = $.div($.sub(level, levelMin), $.sub(levelMax, levelMin));
       var color = $.ListFactory_List(4);
       $.setRuntimeTypeInfo(color, ({E: 'int'}));
       for (var i = 0; i < 4; ++i) {
-        var cMin = $.index($.index($.index($.Mandelbrodt_levelColors, iMin), 1), i);
-        var value = $.toInt($.add(cMin, $.mul(p, $.sub($.index($.index($.index($.Mandelbrodt_levelColors, iMax), 1), i), cMin))));
+        var cMin = $.index($.index($.index($.Mandelbrot_levelColors, iMin), 1), i);
+        var value = $.toInt($.add(cMin, $.mul(p, $.sub($.index($.index($.index($.Mandelbrot_levelColors, iMax), 1), i), cMin))));
         var t1 = color.length;
         if (i < 0 || i >= t1) throw $.ioore(i);
         color[i] = value;
@@ -4407,7 +4407,7 @@ $._getTypeNameOf = null;
 $._nextMeasurementFrameScheduled = false;
 $._firstMeasurementRequest = true;
 $._pendingMeasurementFrameCallbacks = null;
-$.Mandelbrodt_levelColors = null;
+$.Mandelbrot_levelColors = null;
 var $ = null;
 Isolate.$finishClasses($$);
 $$ = {};

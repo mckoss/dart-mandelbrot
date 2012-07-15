@@ -115,8 +115,10 @@ class UI {
   }
   
   handleOnClick(e) {
-    var tl = getPosition((e.x - cx/4).toInt(), (e.y - cy/4).toInt());
-    var br = getPosition((e.x + cx/4).toInt(), (e.y + cy/4).toInt());
+    var x = e.x;
+    var y = e.y - 2 - 10 - graph.height;
+    var tl = getPosition((x - cx/4).toInt(), (y - cy/4).toInt());
+    var br = getPosition((x + cx/4).toInt(), (y + cy/4).toInt());
     rcDisplay = [tl[0], tl[1], br[0], br[1]];
     tile = 0;
   }

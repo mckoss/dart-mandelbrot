@@ -149,7 +149,7 @@ class UI {
 
   void drawGraph() {
     var ctx = graph.context2d;
-    ctx.clearRect(0, 0, graph.width, graph.height);
+    graph.width = graph.width;
 
     double maxData = 20.0;
     for (int i = 0; i < cx; i++) {

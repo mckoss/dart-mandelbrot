@@ -1,11 +1,3 @@
-// Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-/**
- * These are the messages we are going to send to the isolates
- * that we create.
- */
 class MessageId {
   static final INIT = 'init';
   static final GREETING = 'greeting';
@@ -30,7 +22,12 @@ class IsolateSample  {
    */
   final ReceivePort chirpPort;
 
-  IsolateSample() : ports = new Map(), chirpPort = new ReceivePort() {}
+  /**
+   * constructor
+   */
+  IsolateSample() : 
+    ports = new Map(), 
+    chirpPort = new ReceivePort() {}
 
   /**
    * Create a new isolate with a given name.  (In this sample app
@@ -41,8 +38,7 @@ class IsolateSample  {
    */
   void createIsolate(String name) {
     spawnDomIsolate(window, 'isolateEventLoop').then((SendPort sendport) { 
-      var message = { 'id' : MessageId.INIT, 
-                      'args' : [name, chirpPort.toSendPort()] }; 
+      var message = { 'id' : MessageId.INIT, 'args' : [name, chirpPort.toSendPort()] }; 
       sendport.send(message, null);
       ports[name] = sendport; 
     });
@@ -54,8 +50,7 @@ class IsolateSample  {
     document.query('#appTitle').text = 'Hello, isolates.';
     document.query('#vmStatus').text = isVm().toString();
 
-    Element replyElement =
-        document.query('.isolateMain .replyText');
+    Element replyElement = document.query('.isolateMain .replyText');
 
     createIsolate('A');
     createIsolate('B');

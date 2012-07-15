@@ -84,7 +84,7 @@ class UI {
 
     columns = (display.width ~/ TILE_SIZE + 1);
     tiles =  columns * (display.height ~/ TILE_SIZE + 1);
-    rcDisplay = [-1.1, 0.45, -1.0, 0.2];
+    rcDisplay = [-2.0, 1.0, 0.25, -1.0];
 
     var pCanvas = display.height / display.width;
     var rcHeight = (rcDisplay[1] - rcDisplay[3]).abs();

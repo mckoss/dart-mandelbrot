@@ -149,27 +149,29 @@ class UI {
 
   void drawGraph() {
     var ctx = graph.context2d;
-    graph.width = graph.width;
+    graph.width = graph.width;  // clear canvas
+    
+    
 
-    double maxData = 20.0;
+    double maxData = 0.0;
+    double scale = 2.0;
     for (int i = 0; i < cx; i++) {
       if (graphData[i] > maxData) {
         maxData = graphData[i];
       }
+      while (scale < maxData) {
+        scale *= 2;
+      }
     }
-    double scale = graph.height / maxData;
-
+    scale = graph.height / scale;
+    
     for (int x = 0; x < cx; x++) {
       int i = (dataOffset + x) % cx;
       int y = graph.height - (graphData[i] * scale).toInt();
       if (x == 0) {
         ctx.moveTo(x, y);
-        print("$x, $y");
       } else {
         ctx.lineTo(x, y);
-        if (x < 10) {
-          print(".. $x, $y");
-        }
       }
     }
     ctx.stroke();

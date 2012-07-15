@@ -1,20 +1,143 @@
 #library("mandelbrodt");
 
-#import("mandelbrodt-calc.dart");
 #import("dart:html");
-#import('dart:isolate');
+#import("view_port.dart");
 
-final int TILE_SIZE = 64;
-final int BODY_PADDING = 10;
-final int CANVAS_BORDER = 1;
 
-void main() {
-  Mandelbrodt.init();
-  var ui = new UI(query("#display"), query("#graph"), 1);
-  port.receive((WorkResponse response, SendPort replyTo) {
-    ui.pushResponse(response);
-  });
+class Mandelbrodt {
+  int maxIterations;
+  
+  static List<List> levelColors;
+  
+  Mandelbrodt() {
+    maxIterations = 1000;
+    
+    if (levelColors == null) {
+      levelColors = [  
+                     [0, [255, 255, 255, 0]],
+                     [1, [0, 8, 107, 255]],        // dark blue background
+                     [2, [0, 16, 214, 255]],
+                     [100, [255, 255, 0, 255]],    // yellow
+                     [200, [255, 0, 0, 255]],      // red
+                     [400, [0, 255, 0, 255]],      // green
+                     [600, [0, 255, 255, 255]],    // cyan
+                     [800, [254, 254, 254, 255]],  // white
+                     [900, [128, 128, 128, 255]],  // gray
+                     [1000, [0, 0, 0, 255]]        // black
+                     ]; 
+    }
+  }
+  
+  int iterations(double x0, double y0) {
+    if (y0 < 0) {
+        y0 = -y0;
+    }
+    double x = x0;
+    double y = y0;
+    double xT;
+
+    double x2 = x * x;
+    double y2 = y * y;
+
+    // Filter out points in the main cardiod
+    if (-0.75 < x && x < 0.38 && y < 0.66) {
+        double q = (x - 0.25) * (x - 0.25) + y2;
+        if (q * (q + x - 0.25) < 0.25 * y2) {
+            return maxIterations;
+        }
+    }
+
+    // Filter out points in bulb of radius 1/4 around (-1,0)
+    if (-1.25 < x && x < -0.75 && y < 0.25) {
+        double d = (x + 1) * (x + 1) + y2;
+        if (d < 1 / 16) {
+            return maxIterations;
+        }
+    }
+
+    for (int i = 0; i < maxIterations; i++) {
+        if (x * x + y * y > 4) {
+            return i;
+        }
+
+        xT = x * x - y * y + x0;
+        y = 2 * x * y + y0;
+        x = xT;
+    }
+    return maxIterations;
+  }
+  
+  static List colorFromLevel(int level) {
+    // Interpolate control points in this.levelColors
+    // to map levels to colors.
+    int iMin = 0;
+    int iMax = levelColors.length;
+    while (iMin < iMax - 1) {
+        int iMid = (iMin + iMax) ~/ 2;
+        int levelT = levelColors[iMid][0];
+        if (levelT == level) {
+            return levelColors[iMid][1];
+        }
+        if (levelT < level) {
+            iMin = iMid;
+        }
+        else {
+            iMax = iMid;
+        }
+    }
+    
+    int levelMin = levelColors[iMin][0];
+    int levelMax = levelColors[iMax][0];
+    // Make sure we are not overly sensitive to rounding
+    double p = (level - levelMin) / (levelMax - levelMin);
+
+    List<int> color = new List<int>(4);
+    for (var i = 0; i < 4; i++) {
+        int cMin = levelColors[iMin][1][i];
+        int cMax = levelColors[iMax][1][i];
+        var value = (cMin + p * (cMax - cMin)).toInt();
+        color[i] = value;
+    }
+
+    return color;
+  }
+  
+  renderData(List<int> data, List<double> rc, int cx, int cy) {
+    // Per-pixel step values
+    double dx = (rc[2] - rc[0]) / cx;
+    double dy = (rc[3] - rc[1]) / cy;
+
+    double y = rc[1] + dy / 2;
+    int ib = 0;
+    List<int> rgba = new List<int>(4);
+    for (int iy = 0; iy < cy; iy++) {
+        double x = rc[0] + dx / 2;
+        for (int ix = 0; ix < cx; ix++) {
+            int iters = iterations(x, y);
+            rgba = colorFromLevel(iters);
+            for (int i = 0; i < 4; i++) {
+                data[ib++] = rgba[i];
+            }
+            x += dx;
+        }
+        y += dy;
+    }
+  }
+  
+  render(CanvasElement canvas, List<double> rc) {
+    var ctx = canvas.context2d;
+    ImageData bitmap = ctx.createImageData(canvas.width, canvas.height);
+    renderData(bitmap.data, rc, canvas.width, canvas.height);
+    ctx.putImageData(bitmap, 0, 0);
+  }
+  
+  renderAt(ViewPort displayView, ViewPort tileView) {
+    render(tileView.canvas, tileView.rect);
+    tileView.drawOn(displayView.canvas);
+  }
 }
+
+
 
 class WorkResponse {
   List<int> data;
@@ -33,175 +156,10 @@ class WorkResponse {
   }
 }
 
+
 class WorkRequest {
   List<double> rc;
   int cx, cy;
   
   WorkRequest(this.rc, this.cx, this.cy);
-}
-
-class UI {
-  CanvasElement graph;
-  CanvasElement display;
-  CanvasElement canvasTile;
-
-  num drawCount;
-  List<double> rcDisplay;
-  int columns;
-  int tile;
-  int tiles;
-  int cx;
-  int cy;
-  int numWorkers;
-  List<double> graphData;
-  int dataOffset;
-  int lastTime = 0;
-  Queue<WorkResponse> readyList;
-
-  UI(this.display, this.graph, this.numWorkers) {
-
-    drawCount = 0;
-
-    canvasTile = new CanvasElement(TILE_SIZE, TILE_SIZE);
-
-    int availWidth = window.innerWidth - BODY_PADDING * 2 - CANVAS_BORDER * 2;
-    int availHeight = window.innerHeight - BODY_PADDING * 2 - CANVAS_BORDER * 4;
-    graph.width = cx = availWidth;
-    display.width = availWidth;
-    graph.height = (availHeight * 0.25).toInt();
-    display.height = cy = (availHeight * 0.75).toInt();
-    
-    Queue<WorkResponse> readyList = new Queue<WorkResponse>();
-    display.on.click.add(this.handleOnClick);
-
-    graphData = new List<double>(cx);
-    for (int i = 0; i < cx; i++) {
-      graphData[i] = 0.0;
-    }
-    dataOffset = 0;
-
-    columns = (display.width ~/ TILE_SIZE + 1);
-    tiles =  columns * (display.height ~/ TILE_SIZE + 1);
-    rcDisplay = [-2.0, 1.0, 0.25, -1.0];
-
-    var pCanvas = display.height / display.width;
-    var rcHeight = (rcDisplay[1] - rcDisplay[3]).abs();
-    var rcWidth = (rcDisplay[0] - rcDisplay[2]).abs();
-    var pRect = rcHeight / rcWidth;
-    List<double> rcCenter = [(rcDisplay[0] + rcDisplay[2]) / 2,
-                             (rcDisplay[1] + rcDisplay[2]) / 2];
-    
-    if (pRect < pCanvas) {
-      var cFactor = display.width / rcWidth;
-      double dy = (display.height - rcHeight * cFactor) / cFactor;
-      rcDisplay[1] -= dy / 2;
-      rcDisplay[3] += dy / 2;
-    } else {
-      var cFactor = display.height / rcHeight;
-      double dx = (display.width - rcWidth * cFactor) / cFactor;
-      rcDisplay[0] -= dx / 2;
-      rcDisplay[2] += dx / 2;
-    }
-
-    tile = 0;
-    window.requestAnimationFrame(draw);
-  }
-  
-  void pushResponse(WorkResponse response) {
-    readyList.add(response);
-  }
-
-  List<double> getPosition(int x, int y) {
-    return [rcDisplay[0] + (rcDisplay[2] - rcDisplay[0]) * x / cx,
-            rcDisplay[1] + (rcDisplay[3] - rcDisplay[1]) * y / cy];
-  }
-  
-  List<double> getTileRect(int iTile) {
-    int x = (iTile % columns) * TILE_SIZE;
-    int y = (iTile ~/ columns) * TILE_SIZE;
-    var ul = getPosition(x, y);
-    var lr = getPosition(x + TILE_SIZE, y + TILE_SIZE);
-    List<double> rc = [ul[0], ul[1], lr[0], lr[1]];
-  }
-  
-  void handleOnClick(e) {
-    var x = e.x;
-    var y = e.y - 2 - 10 - graph.height;
-    var tl = getPosition((x - cx/4).toInt(), (y - cy/4).toInt());
-    var br = getPosition((x + cx/4).toInt(), (y + cy/4).toInt());
-    rcDisplay = [tl[0], tl[1], br[0], br[1]];
-    tile = 0;
-  }
-
-  bool draw(int time) {
-    if (!readyList.isEmpty()) {
-      work = readList.removeFirst();
-      work.render(canvasTile);
-      display.context2d.drawImage(canvasTile, x, y);
-      updateData((TILE_SIZE * TILE_SIZE) / dsecs);
-    }
-
-    drawGraph();
-
-    timeLast = time;
-    window.requestAnimationFrame(draw);
-  }
-
-  void drawTile() {
-    List<double> rc = getTileRect(tile);
-    Mandelbrodt.render(canvasTile, rc);
-    display.context2d.drawImage(canvasTile, x, y);
-  }
-
-  void updateData(double n) {
-    double dsecs = (Clock.now() - lastTime) / Clock.frequency();
-    lastTime = Clock.now();
-    graphData[dataOffset] = n / dsecs;
-    dataOffset = (dataOffset + 1) % cx;
-  }
-
-  void drawGraph() {
-    var ctx = graph.context2d;
-    graph.width = graph.width;  // clear canvas
-    
-
-    double maxData = 0.0;
-    double scale = 2.0;
-    for (int i = 0; i < cx; i++) {
-      if (graphData[i] > maxData) {
-        maxData = graphData[i];
-      }
-      while (scale < maxData) {
-        scale *= 2;
-      }
-    }
-
-    ctx.font = "bold 10px sans-serif";
-    ctx.textBaseline = "top";
-    int scaleInt = scale.toInt();
-    String str = "$scaleInt";
-    
-    ctx.fillText(str, 0, 0);
-    ctx.textBaseline = "bottom";
-    var scaleWidth = (str.length - 1) * 6;
-    
-    ctx.fillText("0", scaleWidth, graph.height);
-    ctx.moveTo(scaleWidth + 9, 0);
-    ctx.lineTo(scaleWidth + 9, graph.height);
-    ctx.stroke();
-    
-    scale = graph.height / scale;
-    
-    for (int x = 0; x < cx; x++) {
-      int i = (dataOffset + x) % cx;
-      int y = graph.height - (graphData[i] * scale).toInt();
-      if (x == 0) {
-        ctx.moveTo(x, y);
-      } else {
-        ctx.lineTo(x, y);
-      }
-    }
-    ctx.stroke();
-  }
-
 }

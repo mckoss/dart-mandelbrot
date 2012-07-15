@@ -151,7 +151,6 @@ class UI {
     var ctx = graph.context2d;
     graph.width = graph.width;  // clear canvas
     
-    
 
     double maxData = 0.0;
     double scale = 2.0;
@@ -163,6 +162,21 @@ class UI {
         scale *= 2;
       }
     }
+
+    ctx.font = "bold 10px sans-serif";
+    ctx.textBaseline = "top";
+    int scaleInt = scale.toInt();
+    String str = "$scaleInt";
+    
+    ctx.fillText(str, 0, 0);
+    ctx.textBaseline = "bottom";
+    var scaleWidth = (str.length - 1) * 6;
+    
+    ctx.fillText("0", scaleWidth, graph.height);
+    ctx.moveTo(scaleWidth + 9, 0);
+    ctx.lineTo(scaleWidth + 9, graph.height);
+    ctx.stroke();
+    
     scale = graph.height / scale;
     
     for (int x = 0; x < cx; x++) {

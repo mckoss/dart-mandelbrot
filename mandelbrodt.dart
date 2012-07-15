@@ -69,7 +69,31 @@ class UI {
     display.height = (availHeight * 0.75).toInt();
     
     requestRedraw();
-    Mandelbrodt.render(display, [-2.0, 2.0, 2.0, -2.0]);
+    
+    //List<double> rc = [-1.25, 0, -1, 0.5];
+    List<double> rc = [-1.25, .125, -1, .375];
+    var pCanvas = display.height / display.width;
+    var rcHeight = (rc[1] - rc[3]).abs();
+    var rcWidth = (rc[0] - rc[2]).abs();
+    print('height $rcHeight, width $rcWidth');
+    var pRect = rcHeight / rcWidth;
+    List<double> rcCenter = [(rc[0] + rc[2]) / 2, (rc[1] + rc[2]) / 2];
+    
+    //print(rc);
+    //print('pRect $pRect, pCanvas $pCanvas');
+    if (pRect < pCanvas) {
+      var cFactor = display.width / rcWidth;
+      double dy = (display.height - rcHeight * cFactor) / cFactor;
+      print(dy);
+      rc[1] -= dy / 2;
+      rc[3] += dy / 2;
+    } else {
+      var cFactor = display.height / rcHeight;
+      double dx = (display.width - rcWidth * cFactor) / cFactor;
+      rc[0] -= dx / 2;
+      rc[2] += dx / 2;
+    }
+    Mandelbrodt.render(display, rc);
   }
   
   bool draw(int time) {

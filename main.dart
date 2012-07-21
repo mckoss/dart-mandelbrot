@@ -44,7 +44,7 @@ class MandelbrotDemo {
   prepTiles() {
     tile = display.makeTile(TILE_SIZE);
     nextTile = 0;
-    numTiles = tile.numTiles();
+    numTiles = tile.initTileOrder();
   }
 
   void onClick(e) {

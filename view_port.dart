@@ -8,6 +8,7 @@ class ViewPort {
   int columns;
   int rows;
   List<double> rect;
+  List<int> tileOrder;
 
   ViewPort(this.x, this.y, this.canvas, this.rect);
 
@@ -53,11 +54,44 @@ class ViewPort {
     return tile;
   }
 
-  int numTiles() {
+  int initTileOrder() {
+    final dx = [0, 1, 0, -1];
+    final dy = [-1, 0, 1, 0];
+
+    tileOrder = new List<int>();
+    int start = (columns * rows) ~/ 2;
+    int irow = start ~/ columns;
+    int icol = start % (columns);
+    tileOrder.add(start);
+    int dir = 0;
+    for (int n = 1; tileOrder.length < columns * rows; n++) {
+      for (int parity = 0; parity < 2; parity++) {
+        for (int i = 0; i < n; i++) {
+          irow += dy[dir];
+          icol += dx[dir];
+          if (validTile(irow, icol)) {
+            tileOrder.add(irow * columns + icol);
+          }
+        }
+      dir = (dir + 1) % 4;
+      }
+    }
+
     return columns * rows;
   }
 
+  bool validTile(irow, icol) {
+    if (irow < 0 || icol < 0) {
+      return false;
+    }
+    if (irow > rows || icol > columns) {
+      return false;
+    }
+    return true;
+  }
+
   positionTile(ViewPort parent, iTile) {
+    iTile = tileOrder[iTile];
     positionAt(parent, (iTile % columns) * canvas.width, (iTile ~/ columns) * canvas.height);
   }
 

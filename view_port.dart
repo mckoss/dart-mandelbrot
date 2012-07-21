@@ -61,7 +61,7 @@ class ViewPort {
     tileOrder = new List<int>();
     int start = (columns * rows) ~/ 2;
     int irow = start ~/ columns;
-    int icol = start % (columns);
+    int icol = start % columns;
     tileOrder.add(start);
     int dir = 0;
     for (int n = 1; tileOrder.length < columns * rows; n++) {
@@ -84,7 +84,7 @@ class ViewPort {
     if (irow < 0 || icol < 0) {
       return false;
     }
-    if (irow > rows || icol > columns) {
+    if (irow >= rows || icol >= columns) {
       return false;
     }
     return true;

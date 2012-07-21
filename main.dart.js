@@ -2191,8 +2191,8 @@ $$.Mandelbrot = {"":
   var y, x, xT, i;
  },
  Mandelbrot$0: function() {
-  this.maxIterations = 1000;
-  if ($.Mandelbrot_levelColors == null) $.Mandelbrot_levelColors = [[0, [255, 255, 255, 0]], [1, [0, 8, 107, 255]], [2, [0, 16, 214, 255]], [100, [255, 255, 0, 255]], [200, [255, 0, 0, 255]], [400, [0, 255, 0, 255]], [600, [0, 255, 255, 255]], [800, [254, 254, 254, 255]], [900, [128, 128, 128, 255]], [1000, [0, 0, 0, 255]]];
+  this.maxIterations = 2000;
+  if ($.Mandelbrot_levelColors == null) $.Mandelbrot_levelColors = [[0, [255, 255, 255, 255]], [1, [0, 8, 107, 255]], [2, [0, 16, 214, 255]], [100, [255, 255, 0, 255]], [200, [255, 0, 0, 255]], [400, [0, 255, 0, 255]], [600, [0, 255, 255, 255]], [800, [254, 254, 254, 255]], [900, [128, 128, 128, 255]], [1000, [0, 0, 0, 255]], [1200, [0, 255, 255, 255]], [1400, [0, 255, 0, 255]], [1600, [255, 0, 0, 255]], [1800, [255, 255, 0, 255]], [1900, [255, 255, 255, 255]], [2000, [0, 0, 0, 255]]];
  }
 };
 
@@ -2220,10 +2220,10 @@ $$.ViewPort = {"":
   if (irow < 0 || icol < 0) return false;
   var t1 = this.rows;
   if (typeof t1 !== 'number') return this.validTile$2$bailout(2, irow, icol, t1);
-  if (!(irow > t1)) {
+  if (!(irow >= t1)) {
     t1 = this.columns;
     if (typeof t1 !== 'number') return this.validTile$2$bailout(3, icol, t1, 0);
-    t1 = icol > t1;
+    t1 = icol >= t1;
   } else t1 = true;
   if (t1) return false;
   return true;
@@ -2259,13 +2259,13 @@ $$.ViewPort = {"":
     case 2:
       state = 0;
     case 3:
-      if (state == 3 || (state == 0 && !$.gtB(irow, t1))) {
+      if (state == 3 || (state == 0 && !$.geB(irow, t1))) {
         switch (state) {
           case 0:
             t1 = this.columns;
           case 3:
             state = 0;
-            t1 = $.gtB(icol, t1);
+            t1 = $.geB(icol, t1);
         }
       } else {
         t1 = true;
